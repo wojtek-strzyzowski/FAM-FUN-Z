@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import VerifyEmail from './components/VerifyEmail.vue';
 
 
 export const routes = [
@@ -47,7 +48,19 @@ export const routes = [
         path:"/edit-blog/:id",
         component: () => import("./pages/EditBlog.vue"),
     },
+    {
+        path: '/verify-email',
+        name: 'verify-email',
+        component: VerifyEmail
+      } 
 ];
+
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+  });
+  
+  export default router;
 
 
 

@@ -5,6 +5,7 @@ import { createPinia } from 'pinia'
 import { createApp } from "vue";
 import { useAuthStore } from "./stores/AuthStore";
 import App from "./App.vue";
+import axios from 'axios';
 
 
 const app = createApp(App);
@@ -31,6 +32,16 @@ router.beforeEach((to, from, next) => {
       next(); // make sure to always call next()!
     }
 });
+
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+let token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+  axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+  console.error('CSRF token not found');
+}
 
 
 app.use(router);
