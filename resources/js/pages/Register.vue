@@ -1,6 +1,12 @@
 <script setup>
+import { ref } from 'vue';
+import axios from 'axios';
 import MainContent from '@/components/MainContent.vue';
 
+const benutzername = ref('');
+const email = ref('');
+const password = ref('');
+const password_confirmation = ref('');
 </script>
 
 
@@ -18,6 +24,16 @@ import MainContent from '@/components/MainContent.vue';
                 <div class="form__group">
                     <label for="">Benutzername:</label>
                     <input type="text" name="benutzername" autocomplete="benutzername" required>
+                </div>
+
+                <div class="form__group">
+                    <label for="">Vorname:</label>
+                    <input type="text" name="vorname" autocomplete="vorname" required>
+                </div>
+
+                <div class="form__group">
+                    <label for="">Nachname:</label>
+                    <input type="text" name="bennachnameutzername" autocomplete="nachname" required>
                 </div>
 
                 <div class="form__group">
