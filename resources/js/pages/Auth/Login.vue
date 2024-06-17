@@ -120,7 +120,7 @@ input {
     background-color: rgba(29, 27, 21, 0.46) !important;
 }
 
-input:focus {
+input:focus, input:-internal-autofill-selected  {
     background-color: rgba(29, 27, 21, 0.46) !important;
 }
 
@@ -138,5 +138,6 @@ button {
     font-size: larger;
     cursor: pointer;
 }
+
 
 </style>
