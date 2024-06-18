@@ -1,14 +1,37 @@
 <script setup>
+
 import { ref } from 'vue';
 import axios from 'axios';
 import MainContent from '@/components/MainContent.vue';
 
-const benutzername = ref('');
+const username = ref('');
+const firstname = ref('');
+const lastname = ref('');
 const email = ref('');
 const password = ref('');
 const password_confirmation = ref('');
-</script>
 
+const register = async () => {
+    try {
+        const response = await axios.post('/api/register', {
+            username: username.value,
+            firstname: firstname.value,
+            lastname: lastname.value,
+            email: email.value,
+            password: password.value,
+            password_confirmation: password_confirmation.value,
+        });
+
+        console.log(response.data); // Hier solltest du die Rückgabe des Servers sehen
+
+        // Optional: Weiterleitung zur nächsten Seite oder Anzeige einer Erfolgsmeldung
+
+    } catch (error) {
+        console.error(error.response.data); // Handle error
+    }
+};
+
+</script>
 
 <template>
 
@@ -19,39 +42,39 @@ const password_confirmation = ref('');
         </div>
 
         <div class="register-fields">
-            <form action="" method="post">
+            <form @submit.prevent="register" action="" method="post">
 
                 <div class="form__group">
                     <label for="">Benutzername:</label>
-                    <input type="text" name="benutzername" autocomplete="benutzername" required>
+                    <input type="text" v-model="username" name="benutzername" autocomplete="benutzername" required>
                 </div>
 
                 <div class="form__group">
                     <label for="">Vorname:</label>
-                    <input type="text" name="vorname" autocomplete="vorname" required>
+                    <input type="text" v-model="firstname" name="vorname" autocomplete="vorname" required>
                 </div>
 
                 <div class="form__group">
                     <label for="">Nachname:</label>
-                    <input type="text" name="bennachnameutzername" autocomplete="nachname" required>
+                    <input type="text" v-model="lastname" name="nachname" autocomplete="nachname" required>
                 </div>
 
                 <div class="form__group">
                     <label for="">E-Mail:</label>
-                    <input type="email" name="email" autocomplete="email" required>
+                    <input type="email" v-model="email" name="email" autocomplete="email" required>
                 </div>
 
                 <div class="form__group">
                     <label for="">Passwort:</label>
-                    <input type="password" name="password" autocomplete="new-password" required>
+                    <input type="password" v-model="password" name="password" autocomplete="new-password" required>
                 </div>
 
                 <div class="form__group">
                     <label for="">Passwort bestätigen:</label>
-                    <input type="password" name="password_confirmation" autocomplete="new-password" required>
+                    <input type="password" v-model="password_confirmation" name="password_confirmation" autocomplete="new-password" required>
                 </div>
 
-                <button>Registrieren</button>
+                <button type="submit">Registrieren</button>
 
             </form>
         </div>
