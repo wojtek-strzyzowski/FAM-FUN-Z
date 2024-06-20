@@ -3,8 +3,9 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import MainContent from '@/components/MainContent.vue';
-import { routerKey } from 'vue-router';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const username = ref('');
 const firstname = ref('');
 const lastname = ref('');
@@ -26,9 +27,13 @@ const register = async () => {
         console.log(response.data); // Hier solltest du die Rückgabe des Servers sehen
 
         // Optional: Weiterleitung zur nächsten Seite oder Anzeige einer Erfolgsmeldung
-        routerKey.push('/dashboard');
+        router.push('/dashboard');
     } catch (error) {
-        console.error(error.response.data); // Handle error
+        if (error.response) {
+            console.error(error.response.data); // Handle error
+        } else {
+            console.error(error.message);
+        }
     }
 };
 

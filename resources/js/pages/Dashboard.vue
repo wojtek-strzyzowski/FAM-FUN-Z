@@ -11,9 +11,7 @@
 <template>
     
     <MainContent>
-        <header>
-            <LogoutButton/>
-        </header>
+
         <span>Dashboard</span>
         <h1>Hallo {{ store.authUser.name }}</h1>
     </MainContent>

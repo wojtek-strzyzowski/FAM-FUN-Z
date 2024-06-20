@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue';
+import LogoutButton from '@/components/LogoutButton.vue';
 
 const menuActive = ref(false);
+
 
 const toggleMenu = () => {
     menuActive.value = !menuActive.value;
@@ -31,6 +33,7 @@ const toggleMenu = () => {
                     <router-link to="/about">About</router-link>
                     <router-link to="/blog/beiträge">Blog/<br>Beiträge</router-link>
                     <router-link to="/login">Register/<br>Login</router-link>
+                    <LogoutButton/>
                 </div>  
                 <!-- Fügen Sie hier weitere Links hinzu -->
               
