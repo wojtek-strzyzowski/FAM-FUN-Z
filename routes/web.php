@@ -16,7 +16,7 @@ Route::get('/email/verify', function () {
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
 
-    return redirect('/home');
+    return redirect('/');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) {
@@ -25,6 +25,10 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+Route::get('/verify-email', function () {
+    // Nur verifizierte Benutzer dürfen auf diese Route zugreifen...
+})->middleware(['auth', 'verified']);
+
 Route::get('/{vue_capture?}', function () {
     return view('index');
-})->where('vue_capture', '[\/\w\.-]*');
+})->where('vue_capture', '[\/\w\.-]*')->middleware(['auth', 'verified']);

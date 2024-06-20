@@ -27,7 +27,7 @@ const register = async () => {
         console.log(response.data); // Hier solltest du die Rückgabe des Servers sehen
 
         // Optional: Weiterleitung zur nächsten Seite oder Anzeige einer Erfolgsmeldung
-        router.push('/dashboard');
+        router.push('/verify-email');
     } catch (error) {
         if (error.response) {
             console.error(error.response.data); // Handle error
