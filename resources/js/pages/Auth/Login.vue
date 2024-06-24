@@ -39,6 +39,7 @@ const login = async() => {
 
 <template>
 
+    <div id="app">
     <MainContent class="login-main-content">
 
         <div class="header">
@@ -68,6 +69,7 @@ const login = async() => {
         </div>
 
     </MainContent>
+    </div>
 
 </template>
 

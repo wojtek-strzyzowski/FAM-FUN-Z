@@ -30,9 +30,32 @@ export const authClient = axios.create({
   AUTH METHODS
 */
 export default {
+
   async login(payload) {
-      await authClient.get("/sanctum/csrf-cookie");
-      return authClient.post("/login", payload);
+    // CSRF-Cookie abrufen
+    await authClient.get("/sanctum/csrf-cookie");
+    window.axios.defaults.headers.common = {
+      'X-Requested-With': 'XMLHttpRequest',
+      'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+  };
+    // Versuchen, den Benutzer anzumelden
+    const response = await authClient.post("/login", payload);
+
+    // Ausgabe der Antwort im Konsolenfenster zur Überprüfung
+    console.log(response.data);
+
+    // Überprüfen, ob die Antwort ein Benutzerobjekt enthält
+    if (!response.data.user) {
+      throw new Error("Die Antwort vom Server enthält kein Benutzerobjekt.");
+    }
+
+    // Überprüfen, ob die E-Mail verifiziert ist
+    if (!response.data.user.email_verified_at) {
+      throw new Error("Bitte verifizieren Sie zuerst Ihre E-Mail-Adresse.");
+    }
+
+    // Erfolgreichen Login zurückgeben
+    return response.data;
   },
 
   logout() {

@@ -24,7 +24,7 @@ class AuthRegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'name' => ['required', 'string', 'max:255', 'unique:users'],
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -33,9 +33,9 @@ class AuthRegisterController extends Controller
     }
 
     protected function create(array $data)
-    {
+    {   
         return User::create([
-            'username' => $data['username'],
+            'name' => $data['name'],
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'email' => $data['email'],
@@ -46,7 +46,7 @@ class AuthRegisterController extends Controller
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
-
+        
         event(new Registered($user = $this->create($request->all())));
 
         Auth::login($user);

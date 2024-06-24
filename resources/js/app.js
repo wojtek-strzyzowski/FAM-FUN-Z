@@ -6,6 +6,7 @@ import { createApp } from "vue";
 import { useAuthStore } from "./stores/AuthStore";
 import App from "./App.vue";
 import axios from 'axios';
+import Login from "./pages/Auth/Login.vue";
 
 
 const app = createApp(App);
@@ -45,4 +46,5 @@ if (token) {
 
 
 app.use(router);
+app.component("Login",Login);
 app.mount("#app");

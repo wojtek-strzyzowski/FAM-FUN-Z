@@ -13,7 +13,8 @@ class UserController extends Controller
 
 
     public function show(){
-        return new UserResource(User::findOrFail(auth()->id()));
+        $user = new UserResource(User::findOrFail(auth()->id()));
+        return response()->json($user);
     }
 
 

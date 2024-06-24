@@ -6,7 +6,7 @@ import MainContent from '@/components/MainContent.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const username = ref('');
+const name = ref('');
 const firstname = ref('');
 const lastname = ref('');
 const email = ref('');
@@ -16,7 +16,7 @@ const password_confirmation = ref('');
 const register = async () => {
     try {
         const response = await axios.post('/api/register', {
-            username: username.value,
+            name: name.value,
             firstname: firstname.value,
             lastname: lastname.value,
             email: email.value,
@@ -52,7 +52,7 @@ const register = async () => {
 
                 <div class="form__group">
                     <label for="">Benutzername:</label>
-                    <input type="text" v-model="username" name="benutzername" autocomplete="benutzername" required>
+                    <input type="text" v-model="name" name="name" autocomplete="benutzername" required>
                 </div>
 
                 <div class="form__group">
