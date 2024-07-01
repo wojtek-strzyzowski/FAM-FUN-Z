@@ -13,7 +13,7 @@ Route::post('/sanctum/token', TokenController::class);
 /**
  * AUTH ROUTES
  */
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum','verified'])->group(function () {
     Route::get('/users/auth', [UserController::class, 'show']);
 });
 
