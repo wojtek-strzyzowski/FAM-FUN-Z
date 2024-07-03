@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import LogoutButton from '@/components/LogoutButton.vue';
+import SideBar from './components/SideBar.vue';
 
 const menuActive = ref(false);
 
@@ -52,7 +53,7 @@ const toggleMenu = () => {
         </main>
 
         <div class="sidebar">
-            
+            <SideBar/>
         </div>
 
             <div class="hintergrund">
@@ -138,7 +139,7 @@ header {
     display: none;
 }
 
-.sidebar {
+/* .sidebar {
     position: fixed;
     top: 0;
     height: 100%;
@@ -147,7 +148,7 @@ header {
     display: flex;
     align-items: start;
     justify-content: center;
-}
+} */
 
 .hintergrund {
     position: fixed;
