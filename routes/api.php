@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Auth\AuthRegisterController; 
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BlogController;
 
 Route::post('/sanctum/token', TokenController::class);
 
@@ -15,6 +16,7 @@ Route::post('/sanctum/token', TokenController::class);
  */
 Route::middleware(['auth:sanctum','verified'])->group(function () {
     Route::get('/users/auth', [UserController::class, 'show']);
+    Route::post('/blog/store', [BlogController::class, 'store'])->name('api.blog.store');
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');

@@ -1,24 +1,47 @@
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 import MainContent from '@/components/MainContent.vue';
 
-const thumbnail = ref(null);
-const thumbnailPreview = ref(null);
 const title = ref('');
 const description = ref('');
 const content = ref('');
+const thumbnail = ref(null);
+const thumbnailPreview = ref(null);
 
 const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    thumbnail.value = file;
+  const file = e.target.files[0];
+  thumbnail.value = file;
 
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            thumbnailPreview.value = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      thumbnailPreview.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+const submitForm = async () => {
+  const formData = new FormData();
+  formData.append('title', title.value);
+  formData.append('description', description.value);
+  formData.append('content', content.value);
+  if (thumbnail.value) {
+    formData.append('thumbnail', thumbnail.value);
+  }
+
+  try {
+    const response = await axios.post('/api/blog/store', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      }
+    });
+    console.log(response.data.message);
+  } catch (error) {
+    console.error(error);
+  }
 };
 </script>
 
@@ -31,8 +54,7 @@ const handleFileUpload = (e) => {
         </div>
 
         <div class="blog-fields">
-            <form method="POST" action="/blog/store" enctype="multipart/form-data">
-                <!-- @csrf -->
+            <form method="POST" action="/blog/store" enctype="multipart/form-data" @submit.prevent="submitForm">                <!-- @csrf -->
                 <div class="form__group">
                     <label for="thumbnail" class="form-label">Bild hochladen:</label>
                     <input type="file" class="form-control" id="thumbnail" @change="handleFileUpload" name="thumbnail">
