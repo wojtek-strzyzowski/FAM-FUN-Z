@@ -10,6 +10,9 @@ class Blog extends Model
         'title', 
         'description', 
         'content', 
-        'thumbnail'
+        'thumbnail',
+        'adress',
+        'zip',
+        'city'
     ];
 }

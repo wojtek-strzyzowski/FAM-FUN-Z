@@ -8,6 +8,9 @@ const description = ref('');
 const content = ref('');
 const thumbnail = ref(null);
 const thumbnailPreview = ref(null);
+const address = ref('');
+const zip = ref('');
+const city = ref('');
 
 const handleFileUpload = (e) => {
   const file = e.target.files[0];
@@ -21,12 +24,24 @@ const handleFileUpload = (e) => {
     reader.readAsDataURL(file);
   }
 };
+const userId = ref(''); // Beispiel für die Benutzer-ID, normalerweise dynamisch
 
 const submitForm = async () => {
   const formData = new FormData();
+  formData.append('user_id', userId.value); // Füge user_id hinzu
   formData.append('title', title.value);
   formData.append('description', description.value);
-  formData.append('content', content.value);
+  // Hinzugefügt: Adresse, PLZ und Stadt zum FormData hinzufügen
+  formData.append('address', address.value);
+  formData.append('zip', zip.value);
+  formData.append('city', city.value);
+  try {
+    const contentJson = JSON.stringify(content.value);
+    formData.append('content', contentJson);
+  } catch (e) {
+    console.error('Content ist kein gültiges JSON');
+    return;
+  }
   if (thumbnail.value) {
     formData.append('thumbnail', thumbnail.value);
   }
@@ -40,12 +55,14 @@ const submitForm = async () => {
     });
     console.log(response.data.message);
   } catch (error) {
-    console.error(error);
+    if (error.response) {
+      console.error('Error response:', error.response.data);
+    } else {
+      console.error('Error:', error.message);
+    }
   }
 };
 </script>
-
-
 
 <template>
     <MainContent title="Create Blog">
@@ -54,7 +71,7 @@ const submitForm = async () => {
         </div>
 
         <div class="blog-fields">
-            <form method="POST" action="/blog/store" enctype="multipart/form-data" @submit.prevent="submitForm">                <!-- @csrf -->
+            <form method="POST" action="/blog/store" enctype="multipart/form-data" @submit.prevent="submitForm">
                 <div class="form__group">
                     <label for="thumbnail" class="form-label">Bild hochladen:</label>
                     <input type="file" class="form-control" id="thumbnail" @change="handleFileUpload" name="thumbnail">
@@ -78,6 +95,15 @@ const submitForm = async () => {
                 <div class="form__group">
                     <label for="content" class="form-label">Inhalt:</label>
                     <textarea class="form-control" id="content" v-model="content" name="content"></textarea>
+                </div>
+
+                <div class="form__group">
+                    <label for="adress" class="form-label">Adresse:</label>
+                    <input v-model="address" type="text" placeholder="Adresse" class="form-control">
+                    <label for="zip" class="form-label">Postleizahl:</label>
+                    <input v-model="zip" type="text" placeholder="PLZ" class="form-control">
+                    <label for="city" class="form-label">Stadt:</label>
+                    <input v-model="city" type="text" placeholder="Stadt" class="form-control">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Beitrag erstellen</button>
