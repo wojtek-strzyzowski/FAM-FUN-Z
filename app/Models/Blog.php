@@ -13,6 +13,8 @@ class Blog extends Model
         'thumbnail',
         'adress',
         'zip',
-        'city'
+        'city',
+        'homepage',
+        'custom_special'
     ];
 }

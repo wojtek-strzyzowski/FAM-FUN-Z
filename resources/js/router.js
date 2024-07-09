@@ -55,6 +55,11 @@ export const routes = [
     },
 
     {
+        path:"/edit-blog",
+        component: () => import("./pages/EditBlog.vue"),
+    },
+
+    {
         path:"/edit-blog/:id",
         component: () => import("./pages/EditBlog.vue"),
     },
