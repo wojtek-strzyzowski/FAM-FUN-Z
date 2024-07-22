@@ -19,7 +19,7 @@ class BlogController extends Controller
             'zip' => 'required|string|max:10',
             'city' => 'required|string|max:255',
             'address' => 'required|string|max:255', // Validierung für Adresse hinzugefügt
-            'custom_special' => 'nullable|array', // Validierung für custom_special hinzugefügt
+            'custom_special' => 'nullable|json', // Validierung für custom_special hinzugefügt
         ]);
 
         $blog = new Blog();
@@ -30,13 +30,13 @@ class BlogController extends Controller
         $blog->address = $request->address;
         $blog->zip = $request->zip;
         $blog->city = $request->city;
-        $blog->homepage = $request->homepage; // Zuweisung für Homepage hinzugefügt
-        $blog->custom_special = $request->custom_special;
+        $blog->homepage = $request->homepage; 
+        $blog->custom_special = $request->custom_special; 
         if ($request->hasFile('thumbnail')) {
             $path = $request->file('thumbnail')->store('thumbnails', 'public');
             $blog->thumbnail = $path;
         }
-
+        $blog->category_id = $request->category_id;
         $blog->save();
 
         return response()->json(['message' => 'Blog erfolgreich erstellt.']);

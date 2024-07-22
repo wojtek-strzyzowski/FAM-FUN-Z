@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import axios from 'axios';
 import MainContent from '@/components/MainContent.vue';
 
@@ -12,14 +12,28 @@ const address = ref('');
 const zip = ref('');
 const city = ref('');
 const homepage = ref('');
-const custom_special = ref({
-  toilet: false,
-  drinking_water: false,
-  stroller_friendly: false,
-  changing_room: false,
-  restaurant_shopping: false,
-});
+const custom_special = ref([]);
 const additionalInfo = ref('');
+const sonstiges = ref('');
+const category_id = ref(1);
+
+
+const customSpecialOptions = [
+  { id: 'toilet', label: 'WC' , selected:false},
+  { id: 'drinking_water', label: 'Trinkwasser', selected:false },
+  { id: 'stroller_friendly', label: 'Kinderwagen freundlich', selected:false},
+  { id: 'changing_room', label: 'Umkleide', selected:false },
+  { id: 'restaurant_shopping', label: 'Restaurant/Einkaufen', selected:false },
+];
+
+const updateCustomSpecial = (id) => {
+  const index = custom_special.value.indexOf(id);
+  if (index > -1) {
+    custom_special.value.splice(index, 1);
+  } else {
+    custom_special.value.push(id);
+  }
+};
 
 const handleFileUpload = (e) => {
   const file = e.target.files[0];
@@ -37,16 +51,31 @@ const userId = ref(''); // Beispiel für die Benutzer-ID, normalerweise dynamisc
 
 const submitForm = async () => {
   const formData = new FormData();
-  formData.append('user_id', userId.value); // Füge user_id hinzu
+  formData.append('user_id', userId.value);
   formData.append('title', title.value);
   formData.append('description', description.value);
-  // Hinzugefügt: Adresse, PLZ und Stadt zum FormData hinzufügen
   formData.append('address', address.value);
   formData.append('zip', zip.value);
   formData.append('city', city.value);
   formData.append('homepage', homepage.value);
-  formData.append('custom_special', JSON.stringify(custom_special.value)); 
+  formData.append('category_id', category_id.value);
+
+  // Custom special as JSON array
+  custom_special.value.forEach((item) => {
+    customSpecialOptions.forEach((option) => {
+      if (item === option.id) {
+        option.selected = true;
+      }
+    })
+  });
+
+
+  customSpecialOptions.push({'id':'sonstiges','label': sonstiges.value, 'selected':true });
+
+  formData.append('custom_special', JSON.stringify(customSpecialOptions)); 
+  console.log(JSON.stringify(customSpecialOptions));
   formData.append('additional_info', additionalInfo.value);
+
   try {
     const contentJson = JSON.stringify(content.value);
     formData.append('content', contentJson);
@@ -54,6 +83,7 @@ const submitForm = async () => {
     console.error('Content ist kein gültiges JSON');
     return;
   }
+
   if (thumbnail.value) {
     formData.append('thumbnail', thumbnail.value);
   }
@@ -82,6 +112,7 @@ const submitForm = async () => {
             <h1>Beitrag erstellen</h1>
         </div>
 
+
         <div class="blog-fields">
             <form method="POST" action="/blog/store" enctype="multipart/form-data" @submit.prevent="submitForm">
                 <div class="form__group">
@@ -109,7 +140,8 @@ const submitForm = async () => {
                     <textarea class="form-control" id="content" v-model="content" name="content"></textarea>
                 </div>
 
-                <div class="form__group">
+                <div class="form-style">
+                <div class="form__group spacing">
                   <div class="header">
                     <h2>Adresse:</h2>
                   </div>
@@ -124,67 +156,23 @@ const submitForm = async () => {
                 </div>
 
                 <div class="form_group">
-
-                    <h2>Ausstattung:</h2>
-
-                 <div class="big-container">   
-                    <div class="checkbox_container">
+                  <h2>Ausstattung:</h2>
+                  <div class="big-container">
+                    <div class="checkbox_container" v-for="(item, index) in customSpecialOptions" :key="index">
                       <div class="label">
-                        <label for="toilet">WC </label>
+                        <label :for="item.id">{{ item.label }}</label>
                       </div>
-
                       <div class="checkbox">
-                        <input type="checkbox" id="toilet" v-model="custom_special.toilet">
+                        <input type="checkbox" :id="item.id" :value="item.id" @change="updateCustomSpecial(item.id)">
                       </div>
                     </div>
-
-                    <div class="checkbox_container">
-                      <div class="label">
-                        <label for="drinking_water">Trinkwasser </label>
+                    <div>
+                        <label for="sonstiges" class="form-label">Sonstiges:</label>
+                        <input v-model="sonstiges" type="text" placeholder="Sonstiges" class="form-control">
                       </div>
-
-                      <div class="checkbox">
-                        <input type="checkbox" id="drinking_water" v-model="custom_special.drinking_water">
-                      </div>
-                    </div>
-
-                    <div class="checkbox_container">
-                      <div class="label">
-                        <label for="stroller_friendly">Kinderwagen freundlich: </label>
-                      </div>
-
-                      <div class="checkbox">
-                        <input type="checkbox" id="stroller_friendly" v-model="custom_special.stroller_friendly">
-                      </div>
-                    </div>
-
-                    <div class="checkbox_container">
-                      <div class="label">
-                        <label for="changing_room">Umkleide: </label>
-                      </div>
-
-                      <div class="checkbox">
-                        <input type="checkbox" id="changing_room" v-model="custom_special.changing_room">
-                      </div>
-                    </div>
-
-                    <div class="checkbox_container">
-                      <div class="label">
-                        <label for="restaurant_shopping">Restaurant/Einkaufen: </label>
-                      </div>
-
-                      <div class="checkbox">
-                        <input type="checkbox" id="restaurant_shopping" v-model="custom_special.restaurant_shopping">
-                      </div>
-                    </div>
                   </div>
-
-                    <div class="form__group">
-                        <label for="additionalInfo">Zusätzliche Informationen</label>
-                        <input type="text" id="additionalInfo" v-model="additionalInfo">
-                    </div>
-                    <!-- Weitere Checkboxen -->
                 </div>
+              </div>
 
                 <button type="submit" class="btn btn-primary">Beitrag erstellen</button>
             </form>
@@ -193,6 +181,11 @@ const submitForm = async () => {
 </template>
 
 <style scoped>
+
+/* .form-style {
+    display: flex;
+    flex-direction: row;
+} */
 
 .main-content {
     display: flex;

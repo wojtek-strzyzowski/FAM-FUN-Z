@@ -19,8 +19,8 @@ class CreateBlogsTable extends Migration
             $table->string('zip');
             $table->string('city');
             $table->string('homepage'); // Neues Feld hinzugefügt
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->string('custom_special')->nullable();
+            $table->foreignId('category_blog_id')->constrained()->onDelete('cascade');
+            $table->json('custom_special'); 
             $table->timestamps();
         });
     }
