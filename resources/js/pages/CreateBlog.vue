@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import MainContent from '@/components/MainContent.vue';
 
@@ -15,7 +15,20 @@ const homepage = ref('');
 const custom_special = ref([]);
 const additionalInfo = ref('');
 const sonstiges = ref('');
-const category_id = ref(1);
+const category_id = ref([]);
+// const selectedCategories = ref([]);
+
+const categories = ref([]);
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('/api/categories');
+    console.log('Kategorien geladen:', response.data); // Konsolenausgabe hinzufügen
+    categories.value = response.data;
+  } catch (error) {
+    console.error('Error loading categories:', error);
+  }
+});
 
 
 const customSpecialOptions = [
@@ -59,7 +72,7 @@ const submitForm = async () => {
   formData.append('city', city.value);
   formData.append('homepage', homepage.value);
   formData.append('category_id', category_id.value);
-
+  // formData.append('categories', JSON.stringify(selectedCategories.value));
   // Custom special as JSON array
   custom_special.value.forEach((item) => {
     customSpecialOptions.forEach((option) => {
@@ -115,6 +128,16 @@ const submitForm = async () => {
 
         <div class="blog-fields">
             <form method="POST" action="/blog/store" enctype="multipart/form-data" @submit.prevent="submitForm">
+
+                <div class="form__group">
+                  <label for="categories" class="form-label">Kategorien:</label>
+                  <select id="categories" class="form-control" v-model="category_id" multiple>
+                    <option v-for="category in categories" :key="category.id" :value="category.id">
+                      {{ category.name }}
+                    </option>
+                  </select>
+                </div>
+
                 <div class="form__group">
                     <label for="thumbnail" class="form-label">Bild hochladen:</label>
                     <input type="file" class="form-control" id="thumbnail" @change="handleFileUpload" name="thumbnail">

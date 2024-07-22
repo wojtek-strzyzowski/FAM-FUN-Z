@@ -14,7 +14,7 @@ Route::post('/sanctum/token', TokenController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/blog/store', [BlogController::class, 'store'])->name('api.blog.store');
-    Route::get('/api/categories', [CategoryController::class, 'index']);
+    Route::get('/categories', [CategoryController::class, 'index']);
 });
 /**
  * AUTH ROUTES

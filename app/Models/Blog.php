@@ -17,4 +17,9 @@ class Blog extends Model
         'homepage',
         'custom_special'
     ];
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'blog_category');
+    }
 }
