@@ -70,7 +70,7 @@ const submitForm = async () => {
   formData.append('address', address.value);
   formData.append('zip', zip.value);
   formData.append('city', city.value);
-  formData.append('homepage', homepage.value);
+  formData.append('homepage', homepage.value ? homepage.value : null);
   formData.append('category_id', category_id.value);
   // formData.append('categories', JSON.stringify(selectedCategories.value));
   // Custom special as JSON array
