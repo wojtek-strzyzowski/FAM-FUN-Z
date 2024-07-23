@@ -16,18 +16,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/blog/store', [BlogController::class, 'store'])->name('api.blog.store');
     Route::get('/categories', [CategoryController::class, 'index']);
 });
+
 /**
  * AUTH ROUTES
  */
-Route::middleware(['auth:sanctum','verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/users/auth', [UserController::class, 'show']);
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::get('/blog/{id}', [BlogController::class, 'show']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{id}', [CategoryController::class, 'show']); // Neue Route hinzugefügt
+
+// Neue Route für den Benutzer basierend auf der user_id
+Route::get('/users/{id}', [UserController::class, 'getUserById']);
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -48,4 +51,3 @@ Route::get('/{vue_capture?}', function () {
 })->where('vue_capture', '[\/\w\.-]*');
 
 Route::post('/register', [AuthRegisterController::class, 'register']);
-
