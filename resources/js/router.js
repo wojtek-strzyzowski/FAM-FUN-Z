@@ -42,6 +42,7 @@ export const routes = [
     {
         path:"/blog/:id",
         component: () => import("./pages/SingleBlog.vue"),
+        name: "SingleBlog"
     },
 
     {

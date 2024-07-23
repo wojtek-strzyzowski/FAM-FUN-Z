@@ -25,6 +25,10 @@ Route::middleware(['auth:sanctum','verified'])->group(function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/blog/{id}', [BlogController::class, 'show']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']); // Neue Route hinzugefügt
+
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');

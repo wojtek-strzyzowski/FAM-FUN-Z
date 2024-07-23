@@ -21,7 +21,7 @@ class BlogController extends Controller
             'address' => 'required|string|max:255', // Validierung für Adresse hinzugefügt
             'custom_special' => 'nullable|json', // Validierung für custom_special hinzugefügt
         ]);
-
+    
         $blog = new Blog();
         $blog->user_id = Auth::id(); // Setzt die ID des authentifizierten Benutzers
         $blog->title = $request->title;
@@ -38,7 +38,18 @@ class BlogController extends Controller
         }
         $blog->category_id = $request->category_id;
         $blog->save();
-
+    
         return response()->json(['message' => 'Blog erfolgreich erstellt.']);
+    }
+    
+    public function show($id)
+    {
+        $blog = Blog::find($id);
+    
+        if (!$blog) {
+            return response()->json(['message' => 'Blog not found'], 404);
+        }
+    
+        return response()->json($blog);
     }
 }
