@@ -9,6 +9,14 @@
     const user = ref(null);
     const route = useRoute();
     
+
+    //Wenn die API custom_special als einen JSON-String zurückgibt (z.B. "[{...}, {...}, ...]"), 
+    // dann muss dieser JSON-String in ein JavaScript-Objekt umgewandelt werden, bevor man darauf 
+    // zugreifen kann. Das macht man mit JSON.parse(). Wenn custom_special jedoch bereits ein Array 
+    // von Objekten ist, dann ist das Parsen nicht notwendig.
+    
+    
+    
     const selectedSpecials = computed(() => {
     if (!blog.value || !blog.value.custom_special) return [];
     // Attempt to parse custom_special as JSON, in case it's a JSON string
