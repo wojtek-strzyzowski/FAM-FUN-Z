@@ -1,37 +1,50 @@
 <script setup>
-// Keine Änderungen erforderlich im Script-Bereich
+import { defineProps } from 'vue';
+import { useAuthStore } from '../stores/AuthStore';
+
+const store = useAuthStore();
+const props = defineProps({
+  blog: {
+    type: Object,
+    required: true,
+  },
+});
 </script>
 
 <template>
-  <div class="flip-card">
+  <div v-if="blog && blog.thumbnail" class="flip-card">
     <div class="flip-card-inner">
       <div class="flip-card-front">
-        <img src="/public/images/card2.png" alt="Card" style="width:300px;height:300px;">
+        <img :src="`/storage/${blog.thumbnail}`" alt="Card" style="width:300px;height:300px;">
         <div class="front-text">
-            <div class="created"> 
-              <div class="Date">  
-                <p>Erstellt am:</p>
-              </div>
-              <div class="User"> 
-                <p>User</p>
-              </div>
+          <div class="created"> 
+            <div class="Date">  
+              <p>Erstellt am: {{ new Date(blog.created_at).toLocaleDateString('de-DE') }}</p>
             </div>
-            <div class="front-description">
-              <p>Titel</p>
-              <p>Indoor</p>
+            <div class="User"> 
+              <!-- <p v-if="store.authUser">{{ store.authUser.name }}</p>
+              <p v-else>Unbekannter Benutzer</p> -->
             </div>
+          </div>
+          <div class="front-description">
+            <p>{{ blog.title }}</p>
+            <!-- <p>{{ blog.category.name }}</p> -->
+          </div>
         </div>
       </div>
       <div class="flip-card-back">
-        <h1>Titel</h1> 
-        <h2>Beschreibung</h2>
+        <h1>{{ blog.title }}</h1> 
+        <h2>{{ blog.description }}</h2>
+        <router-link :to="`/blog/${blog.id}`">Weiterlesen</router-link>
       </div>
     </div>
+  </div>
+  <div v-else>
+    <p>Loading...</p>
   </div>
 </template>
 
 <style scoped>
-
 .flip-card {
   background-color: transparent;
   width: 300px;
@@ -64,7 +77,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  /* padding: 5px; */
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -94,9 +106,4 @@
   justify-content: space-between;
   gap: 100px;
 }
-
-/* .front-description {
-padding-top: 0;
-} */
-
 </style>

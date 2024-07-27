@@ -52,4 +52,13 @@ class BlogController extends Controller
     
         return response()->json($blog);
     }
+
+    public function index()
+    {
+        // Abrufen aller Blogs aus der Datenbank
+        $blogs = Blog::all();
+
+        // Rückgabe der Blogs als JSON
+        return response()->json($blogs);
+    }
 }

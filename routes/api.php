@@ -31,6 +31,7 @@ Route::get('/categories/{id}', [CategoryController::class, 'show']); // Neue Rou
 
 // Neue Route für den Benutzer basierend auf der user_id
 Route::get('/users/{id}', [UserController::class, 'getUserById']);
+Route::get('/blogs', [BlogController::class, 'index']);
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');

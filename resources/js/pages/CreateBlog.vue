@@ -2,6 +2,9 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import MainContent from '@/components/MainContent.vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter(); 
 
 const title = ref('');
 const description = ref('');
@@ -109,6 +112,7 @@ const submitForm = async () => {
       }
     });
     console.log(response.data.message);
+    router.push({ name: 'SingleBlog', params: { id: response.data.id } });
   } catch (error) {
     if (error.response) {
       console.error('Error response:', error.response.data);

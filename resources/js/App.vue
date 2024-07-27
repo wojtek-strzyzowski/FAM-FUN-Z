@@ -32,7 +32,7 @@ const toggleMenu = () => {
                 <div class="nav-links" :class="{ active: menuActive }">
                     <router-link to="/">Home</router-link>
                     <router-link to="/about">About</router-link>
-                    <router-link to="/blog/beiträge">Blog/<br>Beiträge</router-link>
+                    <router-link to="/all-blogs">Blog/<br>Beiträge</router-link>
                     <router-link to="/login">Register/<br>Login</router-link>
                     <LogoutButton/>
                 </div>  
