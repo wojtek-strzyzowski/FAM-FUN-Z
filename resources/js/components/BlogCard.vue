@@ -12,18 +12,21 @@ const props = defineProps({
 </script>
 
 <template>
-  <div v-if="blog && blog.thumbnail" class="flip-card">
+  <div class="flip-card">
     <div class="flip-card-inner">
       <div class="flip-card-front">
-        <img :src="`/storage/${blog.thumbnail}`" alt="Card" style="width:300px;height:300px;">
+        <img v-if="blog.thumbnail" :src="`/storage/${blog.thumbnail}`" alt="Card" style="width:300px;height:300px;">
+        <div v-else class="no-thumbnail">
+          <img src="/public/images/violett-gold.png" alt="No Thumbnail" style="width:300px;height:300px;">
+        </div>
         <div class="front-text">
           <div class="created"> 
             <div class="Date">  
               <p>Erstellt am: {{ new Date(blog.created_at).toLocaleDateString('de-DE') }}</p>
             </div>
             <div class="User"> 
-              <!-- <p v-if="store.authUser">{{ store.authUser.name }}</p>
-              <p v-else>Unbekannter Benutzer</p> -->
+              <p v-if="store.authUser">Autor: {{ store.authUser.name }}</p>
+              <p v-else></p>
             </div>
           </div>
           <div class="front-description">
@@ -38,9 +41,6 @@ const props = defineProps({
         <router-link :to="`/blog/${blog.id}`">Weiterlesen</router-link>
       </div>
     </div>
-  </div>
-  <div v-else>
-    <p>Loading...</p>
   </div>
 </template>
 
