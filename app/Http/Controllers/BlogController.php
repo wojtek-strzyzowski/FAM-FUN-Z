@@ -55,10 +55,10 @@ class BlogController extends Controller
 
     public function index()
     {
-        // Abrufen aller Blogs aus der Datenbank
-        $blogs = Blog::all();
+    // Abrufen aller Blogs aus der Datenbank und Sortieren nach Erstellungsdatum
+    $blogs = Blog::orderBy('created_at', 'desc')->get();
 
-        // Rückgabe der Blogs als JSON
-        return response()->json($blogs);
+    // Rückgabe der Blogs als JSON
+    return response()->json($blogs);
     }
 }
