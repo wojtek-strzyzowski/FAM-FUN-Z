@@ -29,6 +29,18 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+
+MainContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header{
+    display: flex;
+    align-items: center;
+}
+
 .blog-list {
   display: flex;
   flex-wrap: wrap;
