@@ -1,7 +1,6 @@
 <script setup>
 import { defineProps } from 'vue';
 import { useAuthStore } from '../stores/AuthStore';
-
 const store = useAuthStore();
 const props = defineProps({
   blog: {
@@ -15,9 +14,11 @@ const props = defineProps({
   <div class="flip-card">
     <div class="flip-card-inner">
       <div class="flip-card-front">
-        <img v-if="blog.thumbnail" :src="`/storage/${blog.thumbnail}`" alt="Card" style="width:300px;height:300px;">
-        <div v-else class="no-thumbnail">
-          <img src="/public/images/violett-gold.png" alt="No Thumbnail" style="width:300px;height:300px;">
+        <div class="card-image-container">
+          <img v-if="blog.thumbnail" :src="`/storage/${blog.thumbnail}`" alt="Card" class="card-image">
+          <div v-else class="no-thumbnail">
+            <img src="/public/images/violett-gold.png" alt="No Thumbnail" class="card-image">
+          </div>
         </div>
         <div class="front-text">
           <div class="created"> 
@@ -45,14 +46,14 @@ const props = defineProps({
 </template>
 
 <style scoped>
+
 .flip-card {
   background-color: transparent;
   width: 300px;
-  height: 350px;
+  height: 450px; /* Feste Höhe für die Karte */
   perspective: 1000px;
   margin: 15px;
 }
-
 .flip-card-inner {
   position: relative;
   width: 100%;
@@ -62,11 +63,9 @@ const props = defineProps({
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
-
 .flip-card:hover .flip-card-inner {
   transform: rotateY(180deg);
 }
-
 .flip-card-front, .flip-card-back {
   position: absolute;
   width: 100%;
@@ -74,36 +73,50 @@ const props = defineProps({
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  justify-content: space-between;
   box-sizing: border-box;
   overflow: hidden;
 }
-
 .flip-card-front {
   background-color:#18629285;
   color: rgba(70, 28, 11);
   border-radius: 5%;
 }
-
 .flip-card-back {
   background-color: #18629285;
   color:  rgba(70, 28, 11);
   transform: rotateY(180deg);
   border-radius: 5%;
 }
-
+.card-image-container {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 150px; /* Feste Höhe für das Bild */
+  overflow: hidden;
+}
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Bild an den Container anpassen */
+}
 .front-text {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  justify-content: space-between;
+  padding: 10px;
+  box-sizing: border-box;
 }
-
 .created {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: 100px;
+}
+.front-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 </style>
