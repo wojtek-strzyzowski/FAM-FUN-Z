@@ -39,7 +39,10 @@ class BlogController extends Controller
         $blog->category_id = $request->category_id;
         $blog->save();
     
-        return response()->json(['message' => 'Blog erfolgreich erstellt.']);
+        return response()->json([
+            'message' => 'Blog erfolgreich erstellt.',
+            'id' => $blog->id // Fügen Sie die ID des neu erstellten Blogs zur Antwort hinzu
+        ]);
     }
     
     public function show($id)

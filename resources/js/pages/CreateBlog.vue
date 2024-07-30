@@ -111,6 +111,7 @@ const submitForm = async () => {
         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       }
     });
+    console.log('API Response:', response.data); // Konsolenausgabe hinzufügen
     console.log(response.data.message);
     router.push({ name: 'SingleBlog', params: { id: response.data.id } });
   } catch (error) {

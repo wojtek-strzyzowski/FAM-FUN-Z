@@ -18,21 +18,36 @@ onMounted(async () => {
 </script>
 
 <template>
+
   <MainContent>
+
     <div class="header">
-      <h1>Letzte Blogs</h1>
+      <h1>Die neuesten Beiträge</h1>
     </div>
+    
     <div class="blog-list">
       <BlogCard v-for="blog in latestBlogs" :key="blog.id" :blog="blog" />
     </div>
+
   </MainContent>
+
 </template>
 
 <style scoped>
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
 .blog-list {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
 }
+
 </style>
