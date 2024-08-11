@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
@@ -63,5 +64,37 @@ class BlogController extends Controller
 
     // Rückgabe der Blogs als JSON
     return response()->json($blogs);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $post = Blog::findOrFail($id);
+        $post->title = $request->input('title');
+        $post->description = $request->input('description');
+        $post->content = $request->input('content');
+        $post->address = $request->input('address');
+        $post->zip = $request->input('zip');
+        $post->city = $request->input('city');
+        $post->homepage = $request->input('homepage');
+        $post->category_id = $request->input('category_id');
+        $post->custom_special = $request->input('custom_special');
+        $post->additional_info = $request->input('additional_info');
+        $post->sonstiges = $request->input('sonstiges');
+
+        if ($request->hasFile('thumbnail')) {
+            $file = $request->file('thumbnail');
+            $path = $file->store('thumbnails', 'public');
+            $post->thumbnail = $path;
+        }
+
+        $post->save();
+
+        return response()->json(['id' => $post->id]);
+    }
+
+    public function getCategories()
+    {
+        $categories = Category::all();
+        return response()->json($categories);
     }
 }

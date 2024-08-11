@@ -10,7 +10,6 @@ const store = useAuthStore();
     <div class="sidebar-links" v-if="store.user">
       <router-link to="/dashboard">Profil</router-link>
       <router-link to="/create-blog">Blog ertsellen</router-link>
-      <router-link to="/edit-blog">Blog bearbeiten</router-link>
       <!-- Weitere Links für eingeloggte Benutzer -->
     </div>
     <!-- Optional: Links anzeigen, die für nicht eingeloggte Benutzer sichtbar sein sollen -->

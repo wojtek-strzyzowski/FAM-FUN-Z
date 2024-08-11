@@ -15,6 +15,7 @@ Route::post('/sanctum/token', TokenController::class);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/blog/store', [BlogController::class, 'store'])->name('api.blog.store');
     Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/blogs/get/{id}', [BlogController::class, 'show'])->name('api.blog.show');
 });
 
 /**
@@ -22,6 +23,9 @@ Route::middleware('auth:sanctum')->group(function () {
  */
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/users/auth', [UserController::class, 'show']);
+    Route::post('/blog/store', [BlogController::class, 'store'])->name('api.blog.store');
+    Route::put('/blog/update/{id}', [BlogController::class, 'update'])->name('api.blog.update'); // Neue Route für Update
+    Route::get('/categories', [CategoryController::class, 'index']);
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');

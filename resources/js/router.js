@@ -3,6 +3,7 @@ import VerifyEmail from './components/VerifyEmail.vue';
 import Home from './pages/Home.vue';
 import Register from './pages/Register.vue';
 import Login from './pages/Auth/Login.vue';
+import EditBlog from './pages/EditBlog.vue';
 
 
 export const routes = [
@@ -56,14 +57,11 @@ export const routes = [
     },
 
     {
-        path:"/edit-blog",
-        component: () => import("./pages/EditBlog.vue"),
+        path: '/edit-blog/:id',
+        name: 'EditBlog',
+        component: () => import("./pages/EditBlog.vue")
     },
 
-    {
-        path:"/edit-blog/:id",
-        component: () => import("./pages/EditBlog.vue"),
-    },
     {
         path: '/verify-email',
         name: 'verify-email',
