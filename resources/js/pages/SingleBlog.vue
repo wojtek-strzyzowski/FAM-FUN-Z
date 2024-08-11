@@ -3,12 +3,14 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import MainContent from '@/components/MainContent.vue';
+import { useAuthStore } from '../stores/AuthStore';
 
 const blog = ref(null);
 const category = ref(null);
 const user = ref(null);
 const route = useRoute();
 const router = useRouter();
+const store = useAuthStore();
 
 const selectedSpecials = computed(() => {
   if (!blog.value || !blog.value.custom_special) return [];
@@ -26,7 +28,7 @@ onMounted(async () => {
   try {
     const response = await axios.get(`/api/blog/${route.params.id}`);
     blog.value = response.data;
-    console.log('styso geladen:', response.data);
+    console.log('Blog geladen:', response.data);
     console.log(blog.value.custom_special); 
 
     const categoryResponse = await axios.get(`/api/categories/${response.data.category_id}`);
@@ -38,6 +40,8 @@ onMounted(async () => {
     console.log('Benutzer geladen:', userResponse.data);
 
     console.log('Ausgewählte Specials:', selectedSpecials.value);
+    console.log('Blog-Verfasser Name:', user.value.name);
+    console.log('Eingeloggter Benutzer Name:', store.authUser.name);
   } catch (error) {
     console.error('Error loading blog, category, or user:', error);
   }
@@ -98,7 +102,7 @@ const editBlog = () => {
     <div v-else>
       <p>Loading...</p>
     </div>
-    <button @click="editBlog">Editieren</button>
+    <button v-if="blog && user && user.name === store.authUser.name" @click="editBlog">Editieren</button>
   </MainContent>
 </template>
 

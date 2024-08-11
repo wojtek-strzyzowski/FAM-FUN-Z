@@ -56,3 +56,6 @@ Route::get('/{vue_capture?}', function () {
 })->where('vue_capture', '[\/\w\.-]*');
 
 Route::post('/register', [AuthRegisterController::class, 'register']);
+
+// Neue Route für den authentifizierten Benutzer
+Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'getUser']);
