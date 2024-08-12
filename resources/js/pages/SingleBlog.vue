@@ -58,13 +58,14 @@ const editBlog = () => {
 </script>
 
 <template>
+  
   <MainContent>
     <div v-if="blog" class="blog">
       <div class="header">
         <div class="meta-info">
           <p>{{ formatDate(blog.created_at) }}</p>
           <p v-if="category">{{ category.name }}</p>
-          <p v-if="user">{{ user.name }}</p>
+          <p v-if="user">{{ user.name }}</p> <!-- Benutzername anzeigen -->
         </div>
         <div class="description">
           <p>{{ blog.description }}</p>
@@ -104,6 +105,7 @@ const editBlog = () => {
     </div>
     <button v-if="blog && user && user.name === store.authUser.name" @click="editBlog">Editieren</button>
   </MainContent>
+
 </template>
 
 <style scoped>

@@ -46,14 +46,10 @@ class BlogController extends Controller
         ]);
     }
     
+    // wurde geändert dismal mit user statt blog id
     public function show($id)
     {
-        $blog = Blog::find($id);
-    
-        if (!$blog) {
-            return response()->json(['message' => 'Blog not found'], 404);
-        }
-    
+        $blog = Blog::with('user')->findOrFail($id);
         return response()->json($blog);
     }
 

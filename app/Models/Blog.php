@@ -15,11 +15,17 @@ class Blog extends Model
         'zip',
         'city',
         'homepage',
-        'custom_special'
+        'custom_special',
+        'user_id' //um den Benutzer (später den Verfasser des Blogs)zu referenzieren
     ];
 
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'blog_category');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
