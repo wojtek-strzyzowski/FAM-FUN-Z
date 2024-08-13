@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class BlogController extends Controller
 {
@@ -64,28 +65,30 @@ class BlogController extends Controller
 
     public function update(Request $request, $id)
     {
-        $post = Blog::findOrFail($id);
-        $post->title = $request->input('title');
-        $post->description = $request->input('description');
-        $post->content = $request->input('content');
-        $post->address = $request->input('address');
-        $post->zip = $request->input('zip');
-        $post->city = $request->input('city');
-        $post->homepage = $request->input('homepage');
-        $post->category_id = $request->input('category_id');
-        $post->custom_special = $request->input('custom_special');
-        $post->additional_info = $request->input('additional_info');
-        $post->sonstiges = $request->input('sonstiges');
-
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'address' => 'required|string',
+            'zip' => 'required|string|max:10',
+            'city' => 'required|string|max:100',
+            'homepage' => 'nullable|url',
+            'category_id' => 'required|integer|exists:categories,id', // Validierung der category_id
+            'custom_special' => 'nullable|json',
+            'additional_info' => 'nullable|string',
+            'content' => 'required|string',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+    
+        $blog = Blog::findOrFail($id);
+        $blog->update($validatedData);
+    
         if ($request->hasFile('thumbnail')) {
-            $file = $request->file('thumbnail');
-            $path = $file->store('thumbnails', 'public');
-            $post->thumbnail = $path;
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $blog->thumbnail = $path;
+            $blog->save();
         }
-
-        $post->save();
-
-        return response()->json(['id' => $post->id]);
+    
+        return response()->json($blog);
     }
 
     public function getCategories()

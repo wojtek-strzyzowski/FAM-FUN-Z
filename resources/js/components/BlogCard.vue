@@ -1,12 +1,24 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import { defineProps } from 'vue';
-import { useAuthStore } from '../stores/AuthStore';
-const store = useAuthStore();
+
 const props = defineProps({
   blog: {
     type: Object,
     required: true,
   },
+});
+
+const authorName = ref('');
+
+onMounted(async () => {
+  try {
+    const userResponse = await axios.get(`/api/users/${props.blog.user_id}`);
+    authorName.value = userResponse.data.name;
+  } catch (error) {
+    console.error('Error loading user:', error);
+  }
 });
 </script>
 
@@ -26,7 +38,7 @@ const props = defineProps({
               <p>Erstellt am: {{ new Date(blog.created_at).toLocaleDateString('de-DE') }}</p>
             </div>
             <div class="User"> 
-              <p v-if="store.authUser">Autor: {{ store.authUser.name }}</p>
+              <p>Autor: {{ authorName }}</p>
             </div>
           </div>
           <div class="front-description">
@@ -43,9 +55,7 @@ const props = defineProps({
   </div>
 </template>
 
-
 <style scoped>
-
 .flip-card {
   background-color: transparent;
   width: 300px;

@@ -19,16 +19,16 @@ const homepage = ref('');
 const custom_special = ref([]);
 const additionalInfo = ref('');
 const sonstiges = ref('');
-const category_id = ref([]);
+const category_id = ref(null); // Einzelne Kategorie-ID
 const categories = ref([]);
 
-const customSpecialOptions = [
+const customSpecialOptions = ref([
   { id: 'toilet', label: 'WC', selected: false },
   { id: 'drinking_water', label: 'Trinkwasser', selected: false },
   { id: 'stroller_friendly', label: 'Kinderwagen freundlich', selected: false },
   { id: 'changing_room', label: 'Umkleide', selected: false },
   { id: 'restaurant_shopping', label: 'Restaurant/Einkaufen', selected: false },
-];
+]);
 
 const updateCustomSpecial = (id) => {
   const index = custom_special.value.indexOf(id);
@@ -52,10 +52,10 @@ const handleFileUpload = (e) => {
   }
 };
 
-const getblog = async (id) => {
+const getBlog = async (id) => {
   try {
     const response = await axios.get(`/api/blogs/get/${id}`);
-    const blog = response.data; // Direkt auf response.data zugreifen
+    const blog = response.data;
     title.value = blog.title;
     description.value = blog.description;
     content.value = blog.content;
@@ -64,16 +64,15 @@ const getblog = async (id) => {
     city.value = blog.city;
     homepage.value = blog.homepage;
     category_id.value = blog.category_id;
-    custom_special.value = blog.custom_special;
+    custom_special.value = JSON.parse(blog.custom_special || '[]');
     additionalInfo.value = blog.additional_info;
-    sonstiges.value = blog.sonstiges;
     thumbnailPreview.value = blog.thumbnail ? `/storage/${blog.thumbnail}` : null;
   } catch (error) {
     console.error('Error loading blog:', error);
   }
 };
 
-const updateblog = async () => {
+const updateBlog = async () => {
   const formData = new FormData();
   formData.append('title', title.value);
   formData.append('description', description.value);
@@ -81,27 +80,17 @@ const updateblog = async () => {
   formData.append('zip', zip.value);
   formData.append('city', city.value);
   formData.append('homepage', homepage.value);
-  formData.append('category_id', JSON.stringify(category_id.value)); // Convert array to string
+  formData.append('category_id', category_id.value); // Einzelne Kategorie-ID
 
-  custom_special.value.forEach((item) => {
-    customSpecialOptions.forEach((option) => {
-      if (item === option.id) {
-        option.selected = true;
-      }
-    });
-  });
+  customSpecialOptions.value.push({ id: 'sonstiges', label: sonstiges.value, selected: true });
 
-  customSpecialOptions.push({ id: 'sonstiges', label: sonstiges.value, selected: true });
-
-  formData.append('custom_special', JSON.stringify(customSpecialOptions));
+  formData.append('custom_special', JSON.stringify(customSpecialOptions.value));
   formData.append('additional_info', additionalInfo.value);
 
   try {
-    const contentJson = JSON.stringify(content.value);
-    formData.append('content', contentJson);
+    formData.append('content', content.value);
   } catch (e) {
-    console.error('Content ist kein gültiges JSON');
-    return;
+    console.error('Error parsing content:', e);
   }
 
   if (thumbnail.value) {
@@ -109,25 +98,15 @@ const updateblog = async () => {
   }
 
   try {
-    const response = await axios.post(`/api/blogs/update/${route.params.id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-      }
-    });
-    console.log('API Response:', response.data);
+    const response = await axios.post(`/api/blogs/update/${route.params.id}`, formData);
     router.push({ name: 'SingleBlog', params: { id: response.data.id } });
   } catch (error) {
-    if (error.response) {
-      console.error('Error response:', error.response.data);
-    } else {
-      console.error('Error:', error.message);
-    }
+    console.error('Error updating blog:', error);
   }
 };
 
 onMounted(() => {
-  getblog(route.params.id);
+  getBlog(route.params.id);
   axios.get('/api/categories')
     .then(response => {
       categories.value = response.data;
@@ -139,85 +118,61 @@ onMounted(() => {
 </script>
 
 <template>
-    <MainContent title="Edit Blog">
-        <div class="header">
-            <h1>Beitrag bearbeiten</h1>
-            <router-link to="/" class="btn btn-secondary">Zurück</router-link>
+  <MainContent title="Edit Blog">
+    <form @submit.prevent="updateBlog">
+      <div class="form__group">
+        <label for="title">Title</label>
+        <input id="title" v-model="title" type="text" required />
+      </div>
+      <div class="form__group">
+        <label for="description">Description</label>
+        <textarea id="description" v-model="description" required></textarea>
+      </div>
+      <div class="form__group">
+        <label for="address">Address</label>
+        <input id="address" v-model="address" type="text" required />
+      </div>
+      <div class="form__group">
+        <label for="zip">ZIP</label>
+        <input id="zip" v-model="zip" type="text" required />
+      </div>
+      <div class="form__group">
+        <label for="city">City</label>
+        <input id="city" v-model="city" type="text" required />
+      </div>
+      <div class="form__group">
+        <label for="homepage">Homepage</label>
+        <input id="homepage" v-model="homepage" type="url" />
+      </div>
+      <div class="form__group">
+        <label for="category">Category</label>
+        <select id="category" v-model="category_id" required>
+          <option v-for="category in categories" :key="category.id" :value="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+      <div class="form__group">
+        <label for="custom_special">Custom Special</label>
+        <div class="custom_special">
+          <div v-for="option in customSpecialOptions" :key="option.id" class="checkbox_container">
+            <input type="checkbox" :id="option.id" :value="option.id" v-model="custom_special" />
+            <label :for="option.id">{{ option.label }}</label>
+          </div>
         </div>
-        <div class="blog-fields">
-            <form @submit.prevent="updateblog">
-                <div class="form__group">
-                    <label for="categories" class="form-label">Kategorien:</label>
-                    <select id="categories" class="form-control" v-model="category_id" multiple>
-                        <option v-for="category in categories" :key="category.id" :value="category.id">
-                            {{ category.name }}
-                        </option>
-                    </select>
-                </div>
-
-                <div class="form__group">
-                    <label for="thumbnail" class="form-label">Bild hochladen:</label>
-                    <input type="file" class="form-control" id="thumbnail" @change="handleFileUpload" name="thumbnail">
-                </div>
-
-                <div v-if="thumbnailPreview" class="form__group">
-                    <label class="form-label">Bildvorschau:</label>
-                    <img :src="thumbnailPreview" alt="Thumbnail Preview" class="thumbnail-preview">
-                </div>
-
-                <div class="form__group">
-                    <label for="title" class="form-label">Titel</label>
-                    <input type="text" class="form-control" id="title" v-model="title" name="title">
-                </div>
-
-                <div class="form__group">
-                    <label for="description" class="form-label">Kurzbeschreibung:</label>
-                    <input type="text" class="form-control" id="description" v-model="description" name="description">
-                </div>
-
-                <div class="form__group">
-                    <label for="content" class="form-label">Inhalt:</label>
-                    <textarea class="form-control" id="content" v-model="content" name="content"></textarea>
-                </div>
-
-                <div class="form-style">
-                    <div class="form__group spacing">
-                        <div class="header">
-                            <h2>Adresse:</h2>
-                        </div>
-                        <label for="adress" class="form-label">Adresse:</label>
-                        <input v-model="address" type="text" placeholder="Adresse" class="form-control">
-                        <label for="zip" class="form-label">Postleitzahl:</label>
-                        <input v-model="zip" type="text" placeholder="PLZ" class="form-control">
-                        <label for="city" class="form-label">Stadt:</label>
-                        <input v-model="city" type="text" placeholder="Stadt" class="form-control">
-                        <label for="homepage" class="form-label">Homepage:</label>
-                        <input v-model="homepage" type="text" placeholder="homepage" class="form-control">
-                    </div>
-
-                    <div class="form_group">
-                        <h2>Ausstattung:</h2>
-                        <div class="big-container">
-                            <div class="checkbox_container" v-for="(item, index) in customSpecialOptions" :key="index">
-                                <div class="label">
-                                    <label :for="item.id">{{ item.label }}</label>
-                                </div>
-                                <div class="checkbox">
-                                    <input type="checkbox" :id="item.id" :value="item.id" @change="updateCustomSpecial(item.id)">
-                                </div>
-                            </div>
-                            <div>
-                                <label for="sonstiges" class="form-label">Sonstiges:</label>
-                                <input v-model="sonstiges" type="text" placeholder="Sonstiges" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Beitrag speichern</button>
-            </form>
-        </div>
-    </MainContent>
+      </div>
+      <div class="form__group">
+        <label for="additionalInfo">Additional Info</label>
+        <textarea id="additionalInfo" v-model="additionalInfo"></textarea>
+      </div>
+      <div class="form__group">
+        <label for="thumbnail">Thumbnail</label>
+        <input id="thumbnail" type="file" @change="handleFileUpload" />
+        <img v-if="thumbnailPreview" :src="thumbnailPreview" alt="Thumbnail Preview" class="thumbnail-preview" />
+      </div>
+      <button type="submit">Aktualisieren</button>
+    </form>
+  </MainContent>
 </template>
 
 <style scoped>
