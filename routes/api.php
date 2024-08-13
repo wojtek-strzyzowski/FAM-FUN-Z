@@ -26,6 +26,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/blog/store', [BlogController::class, 'store'])->name('api.blog.store');
     Route::post('/blogs/update/{id}', [BlogController::class, 'update'])->name('api.blog.update'); // Korrigierte Route
     Route::get('/categories', [CategoryController::class, 'index']);
+    Route::put('/blogs/{id}/category', [BlogController::class, 'updateCategory']);
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');

@@ -72,7 +72,7 @@ class BlogController extends Controller
             'zip' => 'required|string|max:10',
             'city' => 'required|string|max:100',
             'homepage' => 'nullable|url',
-            'category_id' => 'required|integer|exists:categories,id', // Validierung der category_id
+            'category_id' => 'required|integer|exists:categories,id',
             'custom_special' => 'nullable|json',
             'additional_info' => 'nullable|string',
             'content' => 'required|string',
@@ -89,11 +89,35 @@ class BlogController extends Controller
         }
     
         return response()->json($blog);
+        Log::info('Update Blog:', $validatedData);
     }
 
     public function getCategories()
     {
         $categories = Category::all();
         return response()->json($categories);
+    }
+
+    public function updateCategory(Request $request, $id)
+    {
+        // Validierung der Eingabedaten
+        $validatedData = $request->validate([
+            'category_id' => 'required|integer|exists:categories,id',
+        ]);
+
+        // Finde den Blog-Post anhand der ID
+        $blog = Blog::findOrFail($id);
+
+        // Aktualisiere die Kategorie-ID des Blog-Posts
+        $blog->category_id = $validatedData['category_id'];
+
+        // Speichere die Änderungen
+        $blog->save();
+
+        // Gib eine Antwort zurück
+        return response()->json([
+            'message' => 'Category updated successfully!',
+            'blog' => $blog
+        ]);
     }
 }
