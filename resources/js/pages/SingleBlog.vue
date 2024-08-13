@@ -40,8 +40,8 @@ onMounted(async () => {
     console.log('Benutzer geladen:', userResponse.data);
 
     console.log('Ausgewählte Specials:', selectedSpecials.value);
-    console.log('Blog-Verfasser Name:', user.value.name);
-    console.log('Eingeloggter Benutzer Name:', store.authUser.name);
+    console.log('Blog-Verfasser Name:', user.value?.name);
+    console.log('Eingeloggter Benutzer Name:', store.authUser?.name);
   } catch (error) {
     console.error('Error loading blog, category, or user:', error);
   }
@@ -58,14 +58,13 @@ const editBlog = () => {
 </script>
 
 <template>
-  
   <MainContent>
     <div v-if="blog" class="blog">
       <div class="header">
         <div class="meta-info">
           <p>{{ formatDate(blog.created_at) }}</p>
-          <p v-if="category">{{ category.name }}</p>
-          <p v-if="user">{{ user.name }}</p> <!-- Benutzername anzeigen -->
+          <p v-if="category">{{ category?.name }}</p>
+          <p v-if="user">{{ user?.name }}</p> <!-- Benutzername anzeigen -->
         </div>
         <div class="description">
           <p>{{ blog.description }}</p>
@@ -103,9 +102,8 @@ const editBlog = () => {
     <div v-else>
       <p>Loading...</p>
     </div>
-    <button v-if="blog && user && user.name === store.authUser.name" @click="editBlog">Editieren</button>
+    <button v-if="blog && user && user.name === store.authUser?.name" @click="editBlog">Editieren</button>
   </MainContent>
-
 </template>
 
 <style scoped>

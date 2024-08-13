@@ -67,6 +67,14 @@ const getBlog = async (id) => {
     custom_special.value = JSON.parse(blog.custom_special || '[]');
     additionalInfo.value = blog.additional_info;
     thumbnailPreview.value = blog.thumbnail ? `/storage/${blog.thumbnail}` : null;
+
+    // Initialisiere die Checkboxen basierend auf den gespeicherten Werten
+    custom_special.value.forEach(id => {
+      const option = customSpecialOptions.value.find(option => option.id === id);
+      if (option) {
+        option.selected = true;
+      }
+    });
   } catch (error) {
     console.error('Error loading blog:', error);
   }
@@ -81,6 +89,12 @@ const updateBlog = async () => {
   formData.append('city', city.value);
   formData.append('homepage', homepage.value);
   formData.append('category_id', category_id.value); // Einzelne Kategorie-ID
+
+  console.log('Category ID:', category_id.value); // Debugging
+  // Aktualisiere die customSpecialOptions basierend auf den ausgewählten Werten
+  customSpecialOptions.value.forEach(option => {
+    option.selected = custom_special.value.includes(option.id);
+  });
 
   customSpecialOptions.value.push({ id: 'sonstiges', label: sonstiges.value, selected: true });
 
@@ -120,6 +134,22 @@ onMounted(() => {
 <template>
   <MainContent title="Edit Blog">
     <form @submit.prevent="updateBlog">
+
+      <div class="form__group">
+        <label for="category">Category</label>
+        <select id="category" v-model="category_id" required>
+          <option v-for="category in categories" :key="category.id" :value="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="form__group">
+        <label for="thumbnail">Thumbnail</label>
+        <input id="thumbnail" type="file" @change="handleFileUpload" />
+        <img v-if="thumbnailPreview" :src="thumbnailPreview" alt="Thumbnail Preview" class="thumbnail-preview" />
+      </div>
+
       <div class="form__group">
         <label for="title">Title</label>
         <input id="title" v-model="title" type="text" required />
@@ -144,20 +174,13 @@ onMounted(() => {
         <label for="homepage">Homepage</label>
         <input id="homepage" v-model="homepage" type="url" />
       </div>
+
       <div class="form__group">
-        <label for="category">Category</label>
-        <select id="category" v-model="category_id" required>
-          <option v-for="category in categories" :key="category.id" :value="category.id">
-            {{ category.name }}
-          </option>
-        </select>
-      </div>
-      <div class="form__group">
-        <label for="custom_special">Custom Special</label>
+        <label for="custom_special">Ausstattung</label>
         <div class="custom_special">
           <div v-for="option in customSpecialOptions" :key="option.id" class="checkbox_container">
-            <input type="checkbox" :id="option.id" :value="option.id" v-model="custom_special" />
             <label :for="option.id">{{ option.label }}</label>
+            <input type="checkbox" :id="option.id" :value="option.id" v-model="custom_special" />
           </div>
         </div>
       </div>
@@ -165,111 +188,72 @@ onMounted(() => {
         <label for="additionalInfo">Additional Info</label>
         <textarea id="additionalInfo" v-model="additionalInfo"></textarea>
       </div>
-      <div class="form__group">
-        <label for="thumbnail">Thumbnail</label>
-        <input id="thumbnail" type="file" @change="handleFileUpload" />
-        <img v-if="thumbnailPreview" :src="thumbnailPreview" alt="Thumbnail Preview" class="thumbnail-preview" />
-      </div>
+
       <button type="submit">Aktualisieren</button>
     </form>
   </MainContent>
 </template>
 
 <style scoped>
-
-/* .form-style {
-    display: flex;
-    flex-direction: row;
-} */
-
-.main-content {
-    display: flex;
-    align-items: center;
-}
-
-h1 {
-    color: rgba(70, 28, 11);
-}
-
 .form__group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .custom_special {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-label {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 5px;
-    font-size: larger;
-}
-
-input {
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid rgba(70, 28, 11);
-    width: 100%;
-    background-color: rgba(29, 27, 21, 0.46) !important;
-}
-
-input:focus, textarea:focus {
-    background-color: rgba(29, 27, 21, 0.46) !important;
-}
-
-textarea {
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid rgba(70, 28, 11);
-    width: 100%;
-    height: 500px;
-    background-color: rgba(29, 27, 21, 0.46) !important;
-}
-
-form {
-    display: flex;
-    flex-direction: column; 
-    justify-content: center;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .checkbox_container {
-    display: flex;
-    flex-direction: row; /* Behält die horizontale Ausrichtung bei */
-    align-items: center; /* Zentriert die Inhalte vertikal */
-    margin-bottom: 15px; /* Fügt Abstand zwischen den Checkbox-Containern hinzu */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-.checkbox {
-    margin-left: 20px; /* Verschiebt die Checkboxen nach rechts */
-    display: flex;
-    align-items: center; /* Zentriert den Text neben der Checkbox */
+label {
+  font-size: larger;
 }
 
-.label {
-    flex-grow: 1; /* Lässt das Label den verfügbaren Platz ausfüllen */
+input[type="text"],
+input[type="url"],
+textarea {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(70, 28, 11);
+  width: 100%;
+  background-color: rgba(29, 27, 21, 0.46) !important;
+}
+
+input:focus,
+textarea:focus {
+  background-color: rgba(29, 27, 21, 0.46) !important;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
 button {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(70, 28, 11);
-    background-color: rgba(70, 28, 11, 0.269);
-    color: rgba(70, 28, 11);
-    font-size: larger;
-    cursor: pointer;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(70, 28, 11);
+  background-color: rgba(70, 28, 11, 0.269);
+  color: rgba(70, 28, 11);
+  font-size: larger;
+  cursor: pointer;
 }
 
 .thumbnail-preview {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
 }
 </style>
