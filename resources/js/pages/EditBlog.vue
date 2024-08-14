@@ -91,6 +91,8 @@ const updateBlog = async () => {
   formData.append('category_id', category_id.value); // Einzelne Kategorie-ID
 
   console.log('Category ID:', category_id.value); // Debugging
+  console.log('Address:', address.value); // Debugging
+
   // Aktualisiere die customSpecialOptions basierend auf den ausgewählten Werten
   customSpecialOptions.value.forEach(option => {
     option.selected = custom_special.value.includes(option.id);
@@ -111,8 +113,14 @@ const updateBlog = async () => {
     formData.append('thumbnail', thumbnail.value);
   }
 
+  // Debugging: Log FormData
+  for (let pair of formData.entries()) {
+    console.log(pair[0] + ': ' + pair[1]);
+  }
+
   try {
     const response = await axios.post(`/api/blogs/update/${route.params.id}`, formData);
+    console.log('Test:',category_id.value);
     router.push({ name: 'SingleBlog', params: { id: response.data.id } });
   } catch (error) {
     console.error('Error updating blog:', error);
@@ -124,6 +132,7 @@ onMounted(() => {
   axios.get('/api/categories')
     .then(response => {
       categories.value = response.data;
+      console.log('Categories loaded:', response.data);
     })
     .catch(error => {
       console.error('Error loading categories:', error);

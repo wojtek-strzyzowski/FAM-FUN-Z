@@ -11,11 +11,12 @@ class Blog extends Model
         'description', 
         'content', 
         'thumbnail',
-        'adress',
+        'address',
         'zip',
         'city',
         'homepage',
         'custom_special',
+        'category_id',
         'user_id' //um den Benutzer (später den Verfasser des Blogs)zu referenzieren
     ];
 

@@ -85,17 +85,16 @@ class BlogController extends Controller
         if ($request->hasFile('thumbnail')) {
             $path = $request->file('thumbnail')->store('thumbnails', 'public');
             $blog->thumbnail = $path;
-            $blog->save();
         }
     
-        return response()->json($blog);
+        // Speichern der Änderungen
+        $blog->save();
+    
+        // Debugging-Informationen
         Log::info('Update Blog:', $validatedData);
-    }
-
-    public function getCategories()
-    {
-        $categories = Category::all();
-        return response()->json($categories);
+        Log::info('Updated Blog:', $blog->toArray());
+    
+        return response()->json($blog);
     }
 
     public function updateCategory(Request $request, $id)
