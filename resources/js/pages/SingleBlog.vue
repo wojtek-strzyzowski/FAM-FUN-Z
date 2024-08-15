@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import MainContent from '@/components/MainContent.vue';
+import GoogleMap from '@/components/GoogleMap.vue';
 import { useAuthStore } from '../stores/AuthStore';
 
 const blog = ref(null);
@@ -68,7 +69,9 @@ const deleteBlog = async () => {
 </script>
 
 <template>
+
   <MainContent>
+
     <div v-if="blog" class="blog">
       <div class="header">
         <div class="meta-info">
@@ -91,9 +94,14 @@ const deleteBlog = async () => {
           <p>{{ blog.city }}, {{ blog.zip }}</p>
           <a :href="blog.homepage" target="_blank">{{ blog.homepage }}</a>
         </div>
-        <slot class="google_maps"></slot>
-        <img :src="`/storage/${blog.thumbnail}`" alt="Thumbnail">
+        <div class="thumbnail">
+          <img :src="`/storage/${blog.thumbnail}`" alt="Thumbnail">
+        </div>
+
       </div>
+      <div class="map">
+        <GoogleMap :address="`${blog.address}, ${blog.city}, ${blog.zip}`" /> <!-- GoogleMap-Komponente -->
+        </div>
 
       <div v-if="selectedSpecials && selectedSpecials.length > 0">
         <h3>Ausstattung und Besonderheiten:</h3>
@@ -114,7 +122,9 @@ const deleteBlog = async () => {
     </div>
     <button v-if="blog && user && user.name === store.authUser?.name" @click="editBlog">Editieren</button>
     <button v-if="blog && user && user.name === store.authUser?.name" @click="deleteBlog">Löschen</button>
+    
   </MainContent>
+
 </template>
 
 <style scoped>
