@@ -119,4 +119,18 @@ class BlogController extends Controller
             'blog' => $blog
         ]);
     }
+
+    public function destroy($id)
+    {
+        $blog = Blog::findOrFail($id);
+    
+        // Überprüfen, ob der authentifizierte Benutzer der Verfasser des Blogs ist
+        if ($blog->user_id !== Auth::id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+    
+        $blog->delete();
+    
+        return response()->json(['message' => 'Blog erfolgreich gelöscht.']);
+    }
 }

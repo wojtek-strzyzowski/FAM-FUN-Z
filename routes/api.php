@@ -24,9 +24,10 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/users/auth', [UserController::class, 'show']);
     Route::post('/blog/store', [BlogController::class, 'store'])->name('api.blog.store');
-    Route::post('/blogs/update/{id}', [BlogController::class, 'update'])->name('api.blog.update'); // Korrigierte Route
+    Route::post('/blogs/update/{id}', [BlogController::class, 'update'])->name('api.blog.update');
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::put('/blogs/{id}/category', [BlogController::class, 'updateCategory']);
+    Route::delete('/blogs/{id}', [BlogController::class, 'destroy'])->name('api.blog.destroy'); // Neue Route für das Löschen
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');

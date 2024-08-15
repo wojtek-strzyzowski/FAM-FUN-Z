@@ -55,6 +55,16 @@ const formatDate = (dateString) => {
 const editBlog = () => {
   router.push(`/edit-blog/${route.params.id}`);
 };
+
+const deleteBlog = async () => {
+  try {
+    await axios.delete(`/api/blogs/${route.params.id}`);
+    console.log('Blog erfolgreich gelöscht');
+    router.push('/'); // Nach dem Löschen zur Startseite weiterleiten
+  } catch (error) {
+    console.error('Fehler beim Löschen des Blogs:', error);
+  }
+};
 </script>
 
 <template>
@@ -103,6 +113,7 @@ const editBlog = () => {
       <p>Loading...</p>
     </div>
     <button v-if="blog && user && user.name === store.authUser?.name" @click="editBlog">Editieren</button>
+    <button v-if="blog && user && user.name === store.authUser?.name" @click="deleteBlog">Löschen</button>
   </MainContent>
 </template>
 
@@ -160,5 +171,4 @@ button {
     font-size: larger;
     cursor: pointer;
 }
-
 </style>
