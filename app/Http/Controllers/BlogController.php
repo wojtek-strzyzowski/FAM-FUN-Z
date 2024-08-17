@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Blog;
-use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -56,11 +55,11 @@ class BlogController extends Controller
 
     public function index()
     {
-    // Abrufen aller Blogs aus der Datenbank und Sortieren nach Erstellungsdatum
-    $blogs = Blog::orderBy('created_at', 'desc')->get();
+        // Abrufen aller Blogs aus der Datenbank und Sortieren nach Erstellungsdatum
+        $blogs = Blog::orderBy('created_at', 'desc')->get();
 
-    // Rückgabe der Blogs als JSON
-    return response()->json($blogs);
+        // Rückgabe der Blogs als JSON
+        return response()->json($blogs);
     }
 
     public function update(Request $request, $id)
@@ -132,5 +131,19 @@ class BlogController extends Controller
         $blog->delete();
     
         return response()->json(['message' => 'Blog erfolgreich gelöscht.']);
+    }
+
+    // Neue Methode zum Abrufen der Blogadresse
+    public function getBlogAddress()
+    {
+        $blog = Blog::first(); // Annahme: Es gibt nur einen Blogeintrag
+        if (!$blog) {
+            return response()->json(['message' => 'Blog nicht gefunden'], 404);
+        }
+        return response()->json([
+            'address' => $blog->address,
+            'zip' => $blog->zip,
+            'city' => $blog->city,
+        ]);
     }
 }

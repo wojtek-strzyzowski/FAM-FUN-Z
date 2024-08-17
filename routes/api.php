@@ -34,6 +34,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/blog/{id}', [BlogController::class, 'show']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{id}', [CategoryController::class, 'show']); // Neue Route hinzugefügt
+Route::get('/blog/address', [BlogController::class, 'getBlogAddress']); // für die adresse google maps
 
 // Neue Route für den Benutzer basierend auf der user_id
 Route::get('/users/{id}', [UserController::class, 'getUserById']);
