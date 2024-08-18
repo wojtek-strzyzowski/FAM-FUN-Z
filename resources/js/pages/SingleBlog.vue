@@ -92,7 +92,7 @@ const deleteBlog = async () => {
         <div class="address">
           <p>{{ blog.address }}</p>
           <p>{{ blog.city }}, {{ blog.zip }}</p>
-          <a :href="blog.homepage" target="_blank">{{ blog.homepage }}</a>
+          <a :href="blog.homepage" target="_blank">Homepage</a> <!-- Versteckter Link -->
         </div>
         <div class="thumbnail">
           <img :src="`/storage/${blog.thumbnail}`" alt="Thumbnail">
