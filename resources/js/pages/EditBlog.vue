@@ -84,16 +84,13 @@ const updateBlog = async () => {
   const formData = new FormData();
   formData.append('title', title.value);
   formData.append('description', description.value);
+  formData.append('content', content.value);
   formData.append('address', address.value);
   formData.append('zip', zip.value);
   formData.append('city', city.value);
   formData.append('homepage', homepage.value);
-  formData.append('category_id', category_id.value); // Einzelne Kategorie-ID
+  formData.append('category_id', category_id.value);
 
-  console.log('Category ID:', category_id.value); // Debugging
-  console.log('Address:', address.value); // Debugging
-
-  // Aktualisiere die customSpecialOptions basierend auf den ausgewählten Werten
   customSpecialOptions.value.forEach(option => {
     option.selected = custom_special.value.includes(option.id);
   });
@@ -102,12 +99,6 @@ const updateBlog = async () => {
 
   formData.append('custom_special', JSON.stringify(customSpecialOptions.value));
   formData.append('additional_info', additionalInfo.value);
-
-  try {
-    formData.append('content', content.value);
-  } catch (e) {
-    console.error('Error parsing content:', e);
-  }
 
   if (thumbnail.value) {
     formData.append('thumbnail', thumbnail.value);
@@ -120,11 +111,12 @@ const updateBlog = async () => {
 
   try {
     const response = await axios.post(`/api/blogs/update/${route.params.id}`, formData);
-    console.log('Test:',category_id.value);
+    console.log('Response:', response.data);
     router.push({ name: 'SingleBlog', params: { id: response.data.id } });
   } catch (error) {
-    console.error('Error updating blog:', error);
+    console.error('Error updating blog:', error.response ? error.response.data : error.message);
   }
+  console.log('Update Blog:', content.value);
 };
 
 onMounted(() => {
@@ -132,10 +124,6 @@ onMounted(() => {
   axios.get('/api/categories')
     .then(response => {
       categories.value = response.data;
-      console.log('Categories loaded:', response.data);
-    })
-    .catch(error => {
-      console.error('Error loading categories:', error);
     });
 });
 </script>

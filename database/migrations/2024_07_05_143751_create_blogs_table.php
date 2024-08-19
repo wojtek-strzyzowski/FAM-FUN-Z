@@ -14,15 +14,15 @@ class CreateBlogsTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('thumbnail')->nullable();
-            $table->json('content');
+            $table->string('content');
             $table->string('address');
             $table->string('zip');
             $table->string('city');
             $table->string('homepage'); // Neues Feld hinzugefügt
-            $table->foreignId('category_blog_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->json('custom_special'); 
             $table->timestamps();
-        });
+        }); 
     }
 
     public function down()

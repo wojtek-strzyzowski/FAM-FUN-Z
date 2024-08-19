@@ -14,7 +14,7 @@ class BlogController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'content' => 'required|json',
+            'content' => 'required|string',
             'thumbnail' => 'nullable|image|max:2048',
             'homepage' => 'nullable|string|max:255',
             'zip' => 'required|string|max:10',

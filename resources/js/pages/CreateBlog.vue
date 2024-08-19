@@ -70,6 +70,7 @@ const submitForm = async () => {
   formData.append('user_id', userId.value);
   formData.append('title', title.value);
   formData.append('description', description.value);
+  formData.append('content', content.value);
   formData.append('address', address.value);
   formData.append('zip', zip.value);
   formData.append('city', city.value);
@@ -92,13 +93,13 @@ const submitForm = async () => {
   console.log(JSON.stringify(customSpecialOptions));
   formData.append('additional_info', additionalInfo.value);
 
-  try {
-    const contentJson = JSON.stringify(content.value);
-    formData.append('content', contentJson);
-  } catch (e) {
-    console.error('Content ist kein gültiges JSON');
-    return;
-  }
+  // try {
+  //   const contentJson = JSON.stringify(content.value);
+  //   formData.append('content', contentJson);
+  // } catch (e) {
+  //   console.error('Content ist kein gültiges JSON');
+  //   return;
+  // }
 
   if (thumbnail.value) {
     formData.append('thumbnail', thumbnail.value);
