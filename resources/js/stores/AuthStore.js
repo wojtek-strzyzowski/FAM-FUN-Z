@@ -17,6 +17,7 @@ export const useAuthStore = defineStore('AuthStore', {
     async getAuthUser(){
         try{
           let response = await AuthService.getAuthUser();
+          console.log('Auth User:', response.data);
         
           this.user = await response.data;
           return this.user;
