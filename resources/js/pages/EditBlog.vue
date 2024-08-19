@@ -168,6 +168,10 @@ onMounted(() => {
         <textarea id="description" v-model="description" required></textarea>
       </div>
       <div class="form__group">
+        <label for="content">Content</label>
+        <textarea id="content" v-model="content" required></textarea>
+      </div>
+      <div class="form__group">
         <label for="address">Address</label>
         <input id="address" v-model="address" type="text" required />
       </div>

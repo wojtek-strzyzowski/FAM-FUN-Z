@@ -28,8 +28,11 @@ onMounted(() => {
 
 <template>
   <MainContent>
-      <span>Dashboard</span>
+      
+    <div class="header">
+      <h1>Dashboard</h1>
       <h1>Hallo {{ store.authUser.name }}</h1>
+    </div>
       
       <div v-if="blogs.length">
           <h2>Deine Blogs:</h2>
@@ -44,6 +47,15 @@ onMounted(() => {
 </template>
 
 <style scoped>
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
 
 .blog-cards-container {
   display: flex;

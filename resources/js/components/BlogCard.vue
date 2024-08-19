@@ -48,7 +48,7 @@ onMounted(async () => {
       </div>
       <div class="flip-card-back">
         <h1>{{ blog.title }}</h1> 
-        <h2>{{ blog.description }}</h2>
+        <p>{{ blog.description }}</p>
         <router-link :to="`/blog/${blog.id}`">Weiterlesen</router-link>
       </div>
     </div>
