@@ -40,6 +40,10 @@ Route::get('/blog/address', [BlogController::class, 'getBlogAddress']); // für 
 Route::get('/users/{id}', [UserController::class, 'getUserById']);
 Route::get('/blogs', [BlogController::class, 'index']);
 
+// Neue Route für Blogs basierend auf der user_id
+Route::get('/users/{user_id}/blogs', [BlogController::class, 'getBlogsByUserId']);
+
+
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');

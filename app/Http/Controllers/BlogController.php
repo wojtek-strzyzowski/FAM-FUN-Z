@@ -146,4 +146,10 @@ class BlogController extends Controller
             'city' => $blog->city,
         ]);
     }
+
+    public function getBlogsByUserId($user_id)
+    {
+    $blogs = Blog::where('user_id', $user_id)->get();
+    return response()->json($blogs);
+    }
 }
