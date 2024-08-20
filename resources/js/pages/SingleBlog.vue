@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import MainContent from '@/components/MainContent.vue';
+import CommentSection from '@/components/CommentSection.vue';
 import GoogleMap from '@/components/GoogleMap.vue';
 import { useAuthStore } from '../stores/AuthStore';
 
@@ -115,6 +116,8 @@ const deleteBlog = async () => {
         <p>Keine Specials ausgewählt.</p>
       </div>
       <div class="content" v-html="blog.content"></div>
+      <!-- Kommentarbereich -->
+      <CommentSection :blogId="blog.id" />
     </div>
     
     <div v-else>

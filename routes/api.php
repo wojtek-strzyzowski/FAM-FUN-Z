@@ -9,6 +9,9 @@ use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController  ;
+
+Route::get('/comments', [CommentController::class, 'index']);
 
 Route::post('/sanctum/token', TokenController::class);
 
@@ -66,3 +69,8 @@ Route::post('/register', [AuthRegisterController::class, 'register']);
 
 // Neue Route für den authentifizierten Benutzer
 Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'getUser']);
+
+// Neue Route für Kommentare
+
+Route::post('/comments/store', [CommentController::class, 'store']);
+
