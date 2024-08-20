@@ -53,12 +53,22 @@ class BlogController extends Controller
         return response()->json($blog);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        // Abrufen aller Blogs aus der Datenbank und Sortieren nach Erstellungsdatum
-        $blogs = Blog::orderBy('created_at', 'desc')->get();
-
-        // Rückgabe der Blogs als JSON
+        $query = Blog::query();
+    
+        if ($request->has('category_id') && $request->category_id != '') {
+            $query->where('category_id', $request->category_id);
+        }
+    
+        if ($request->has('sort')) {
+            $query->orderBy('created_at', $request->sort);
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+    
+        $blogs = $query->get();
+    
         return response()->json($blogs);
     }
 

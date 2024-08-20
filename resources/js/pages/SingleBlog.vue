@@ -131,6 +131,9 @@ const deleteBlog = async () => {
 .main-content {
   display: flex;
   align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #f9f9f9;
 }
 
 .meta-info {
@@ -138,12 +141,14 @@ const deleteBlog = async () => {
   justify-content: center;
   gap: 20px;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .title, .description {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  text-align: center;
 }
 
 .address-thumbnail {
@@ -151,6 +156,7 @@ const deleteBlog = async () => {
   justify-content: space-between;
   align-items: flex-start;
   margin-top: 10px;
+  gap: 20px;
 }
 
 .address {
@@ -165,20 +171,46 @@ const deleteBlog = async () => {
 .address-thumbnail img {
   max-width: 200px;
   margin-left: 20px;
+  border-radius: 10px;
+}
+
+.map {
+  margin-top: 20px;
 }
 
 .content {
   margin-top: 20px;
+  line-height: 1.6;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.content h2, .content h3, .content h4 {
+  margin-top: 20px;
+  color: #444;
+}
+
+.content p {
+  margin-bottom: 15px;
+}
+
+.content ul, .content ol {
+  margin-left: 20px;
+  margin-bottom: 15px;
 }
 
 button {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(70, 28, 11);
-    background-color: rgba(70, 28, 11, 0.269);
-    color: rgba(70, 28, 11);
-    font-size: larger;
-    cursor: pointer;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(70, 28, 11);
+  background-color: rgba(70, 28, 11, 0.269);
+  color: rgba(70, 28, 11);
+  font-size: larger;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgba(70, 28, 11, 0.5);
 }
 </style>

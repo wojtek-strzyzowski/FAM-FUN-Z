@@ -76,30 +76,21 @@ const submitForm = async () => {
   formData.append('city', city.value);
   formData.append('homepage', homepage.value);
   formData.append('category_id', category_id.value);
-  // formData.append('categories', JSON.stringify(selectedCategories.value));
+
   // Custom special as JSON array
   custom_special.value.forEach((item) => {
     customSpecialOptions.forEach((option) => {
       if (item === option.id) {
         option.selected = true;
       }
-    })
+    });
   });
-
 
   customSpecialOptions.push({'id':'sonstiges','label': sonstiges.value, 'selected':true });
 
   formData.append('custom_special', JSON.stringify(customSpecialOptions)); 
   console.log(JSON.stringify(customSpecialOptions));
   formData.append('additional_info', additionalInfo.value);
-
-  // try {
-  //   const contentJson = JSON.stringify(content.value);
-  //   formData.append('content', contentJson);
-  // } catch (e) {
-  //   console.error('Content ist kein gültiges JSON');
-  //   return;
-  // }
 
   if (thumbnail.value) {
     formData.append('thumbnail', thumbnail.value);
