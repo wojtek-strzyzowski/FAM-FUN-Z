@@ -55,7 +55,7 @@ const submitComment = async () => {
 };
 
 const startPolling = () => {
-  pollingInterval = setInterval(fetchComments, 5000); // Alle 5 Sekunden Kommentare abrufen
+  pollingInterval = setInterval(fetchComments, 900000); // Alle 15 Minuten Kommentare abrufen
 };
 
 const stopPolling = () => {
