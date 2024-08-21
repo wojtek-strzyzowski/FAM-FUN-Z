@@ -1,12 +1,12 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import { useRoute } from 'vue-router'; // Importiere useRoute, um auf die Routenparameter zuzugreifen
+import { useRoute } from 'vue-router';
 
 const map = ref(null);
 const userAddress = ref('');
-const destination = ref(''); // Zieladresse wird später gesetzt
-const route = useRoute(); // Verwende useRoute, um auf die Routenparameter zuzugreifen
+const destination = ref('');
+const route = useRoute();
 
 const loadMap = () => {
   const apiKey = import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY;
@@ -15,16 +15,15 @@ const loadMap = () => {
     return;
   }
 
-  // Überprüfen, ob das Skript bereits vorhanden ist
   if (!document.querySelector(`script[src*="maps.googleapis.com/maps/api/js?key=${apiKey}"]`)) {
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
     script.async = true;
     script.defer = true;
+    script.setAttribute('loading', 'async');
     window.initMap = initMap;
     document.head.appendChild(script);
   } else {
-    // Wenn das Skript bereits vorhanden ist, direkt die Karte initialisieren
     initMap();
   }
 };
@@ -51,6 +50,52 @@ const initMap = () => {
   document.getElementById("start").addEventListener("change", onChangeHandler);
   document.getElementById("end").addEventListener("change", onChangeHandler);
   document.getElementById("mode").addEventListener("change", onChangeHandler);
+
+  // Hinzufügen der Standort-Schaltfläche
+  const locationButton = document.createElement("button");
+  locationButton.textContent = "Pan to Current Location";
+  locationButton.classList.add("custom-map-control-button");
+  mapInstance.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+  locationButton.addEventListener("click", () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          console.log('Aktuelle Position:', pos);
+
+          userAddress.value = `${pos.lat}, ${pos.lng}`;
+          document.getElementById("start").value = userAddress.value;
+
+          const infoWindow = new google.maps.InfoWindow({
+            position: pos,
+            content: "Location found.",
+          });
+          infoWindow.open(mapInstance);
+          mapInstance.setCenter(pos);
+        },
+        (error) => {
+          console.error('Fehler beim Abrufen des aktuellen Standorts:', error);
+          handleLocationError(true, mapInstance.getCenter());
+        }
+      );
+    } else {
+      handleLocationError(false, mapInstance.getCenter());
+    }
+  });
+};
+
+const handleLocationError = (browserHasGeolocation, pos) => {
+  const infoWindow = new google.maps.InfoWindow({
+    position: pos,
+    content: browserHasGeolocation
+      ? "Error: The Geolocation service failed."
+      : "Error: Your browser doesn't support geolocation.",
+  });
+  infoWindow.open(map.value);
 };
 
 const calculateAndDisplayRoute = (directionsService, directionsRenderer) => {
@@ -74,10 +119,10 @@ const calculateAndDisplayRoute = (directionsService, directionsRenderer) => {
 
 const fetchBlogAddress = async () => {
   try {
-    const response = await axios.get(`/api/blog/${route.params.id}`); // Beispiel-API-Endpunkt
+    const response = await axios.get(`/api/blog/${route.params.id}`);
     const blog = response.data;
     destination.value = `${blog.address}, ${blog.zip} ${blog.city}`;
-    console.log('Abgerufene Adresse:', destination.value); // Protokolliert die abgerufene Adresse
+    console.log('Abgerufene Adresse:', destination.value);
   } catch (error) {
     console.error('Fehler beim Abrufen der Blogadresse:', error);
   }
@@ -85,7 +130,7 @@ const fetchBlogAddress = async () => {
 
 onMounted(() => {
   loadMap();
-  fetchBlogAddress(); // Blogadresse beim Mounten abrufen
+  fetchBlogAddress();
 });
 </script>
 
@@ -128,5 +173,20 @@ onMounted(() => {
   font-family: "Roboto", "sans-serif";
   line-height: 30px;
   padding-left: 10px;
+}
+.custom-map-control-button {
+  background-color: #fff;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  margin: 10px;
+  padding: 0 0.5em;
+  font: 400 18px Roboto, Arial, sans-serif;
+  overflow: hidden;
+  height: 40px;
+  cursor: pointer;
+}
+.custom-map-control-button:hover {
+  background: #ebebeb;
 }
 </style>

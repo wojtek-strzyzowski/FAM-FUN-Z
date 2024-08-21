@@ -8,7 +8,7 @@
     <title>FAM FUN Z</title>
 
     @vite(['resources/js/app.js'])
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.api_key') }}"></script></head>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.api_key') }}" loading defer></script></head> -->
 <body>
     <div id="app"></div>
 </body>
