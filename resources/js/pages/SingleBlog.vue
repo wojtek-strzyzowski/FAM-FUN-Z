@@ -136,6 +136,7 @@ const deleteBlog = async () => {
   align-items: center;
   flex-direction: column;
   padding: 20px;
+  background-color: rgba(247, 250, 250, 0.815);
 }
 
 .meta-info {

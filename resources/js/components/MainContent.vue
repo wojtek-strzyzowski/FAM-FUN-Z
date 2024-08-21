@@ -34,6 +34,7 @@
   .main-content {
     margin-left: 5%; /* Reduzieren Sie den linken Rand auf kleineren Bildschirmen */
     padding: 10px; /* Reduzieren Sie das Padding auf kleineren Bildschirmen */
+    border-radius: 2%;
   }
 }
 

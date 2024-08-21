@@ -76,6 +76,7 @@ const toggleMenu = () => {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap');
 
 
 
@@ -85,7 +86,7 @@ const toggleMenu = () => {
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu Sans', sans-serif;
     margin: 0;
     padding: 0;
     overflow-x: hidden; /* Verhindert horizontales Scrollen */
