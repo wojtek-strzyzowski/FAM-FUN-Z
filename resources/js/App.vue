@@ -2,7 +2,9 @@
 import { ref } from 'vue';
 import LogoutButton from '@/components/LogoutButton.vue';
 import SideBar from './components/SideBar.vue';
+import { useAuthStore } from '@/stores/AuthStore';
 
+const store = useAuthStore();
 const menuActive = ref(false);
 
 
@@ -35,6 +37,10 @@ const toggleMenu = () => {
                     <router-link to="/all-blogs">Blog/<br>Beiträge</router-link>
                     <router-link to="/login">Register/<br>Login</router-link>
                     <LogoutButton/>
+                    <div class="responsive-sidebar" v-if="store.user">
+                        <router-link to="/dashboard">Profil</router-link>
+                        <router-link to="/create-blog">Blog ertsellen</router-link>
+                    </div>
                 </div>  
                 <!-- Fügen Sie hier weitere Links hinzu -->
               
@@ -139,6 +145,10 @@ header {
     display: none;
 }
 
+.responsive-sidebar {
+    display: none;
+}
+
 /* .sidebar {
     position: fixed;
     top: 0;
@@ -233,6 +243,13 @@ h3 {
         padding: 10px;
         margin: 0;
         border-bottom: 1px solid rgba(70, 28, 11, 0.1);
+    }
+
+    .responsive-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 20px;
     }
 
     .slogan {
