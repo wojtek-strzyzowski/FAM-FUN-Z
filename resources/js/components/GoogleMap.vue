@@ -29,6 +29,7 @@ const loadMap = () => {
 };
 
 const initMap = () => {
+  const geocoder = new google.maps.Geocoder();
   const directionsRenderer = new google.maps.DirectionsRenderer();
   const directionsService = new google.maps.DirectionsService();
   const mapInstance = new google.maps.Map(document.getElementById("map"), {
@@ -53,7 +54,7 @@ const initMap = () => {
 
   // Hinzufügen der Standort-Schaltfläche
   const locationButton = document.createElement("button");
-  locationButton.textContent = "Pan to Current Location";
+  locationButton.textContent = "Ihr Standort";
   locationButton.classList.add("custom-map-control-button");
   mapInstance.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
   locationButton.addEventListener("click", () => {
@@ -67,15 +68,7 @@ const initMap = () => {
 
           console.log('Aktuelle Position:', pos);
 
-          userAddress.value = `${pos.lat}, ${pos.lng}`;
-          document.getElementById("start").value = userAddress.value;
-
-          const infoWindow = new google.maps.InfoWindow({
-            position: pos,
-            content: "Location found.",
-          });
-          infoWindow.open(mapInstance);
-          mapInstance.setCenter(pos);
+          geocodeLatLng(geocoder, pos, mapInstance);
         },
         (error) => {
           console.error('Fehler beim Abrufen des aktuellen Standorts:', error);
@@ -86,6 +79,28 @@ const initMap = () => {
       handleLocationError(false, mapInstance.getCenter());
     }
   });
+};
+
+const geocodeLatLng = async (geocoder, latlng, mapInstance) => {
+  try {
+    const response = await geocoder.geocode({ location: latlng });
+    if (response.results[0]) {
+      console.log('Geocoding-Ergebnisse:', response.results);
+      userAddress.value = response.results[0].formatted_address;
+      document.getElementById("start").value = userAddress.value;
+
+      const infoWindow = new google.maps.InfoWindow({
+        position: latlng,
+        content: response.results[0].formatted_address,
+      });
+      infoWindow.open(mapInstance);
+      mapInstance.setCenter(latlng);
+    } else {
+      console.error("Keine Ergebnisse gefunden");
+    }
+  } catch (e) {
+    window.alert(`Geocoder failed due to: ${e}`);
+  }
 };
 
 const handleLocationError = (browserHasGeolocation, pos) => {
