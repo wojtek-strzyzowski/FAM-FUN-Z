@@ -96,7 +96,7 @@ const deleteBlog = async () => {
           <a :href="blog.homepage" target="_blank">Homepage</a> <!-- Versteckter Link -->
         </div>
         <div class="thumbnail">
-          <img :src="`/storage/${blog.thumbnail}`" alt="Thumbnail">
+          <img :src="`https://famfunz.ch/storage/thumbnails/${blog.thumbnail}`" alt="Thumbnail">
         </div>
 
       </div>
