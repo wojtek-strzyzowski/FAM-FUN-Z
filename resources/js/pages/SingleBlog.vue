@@ -68,9 +68,7 @@ const deleteBlog = async () => {
   }
 };
 
-const goBack = () => {
-  router.push('/');
-};
+
 </script>
 
 <template>
@@ -126,7 +124,7 @@ const goBack = () => {
     </div>
     <button v-if="blog && user && user.name === store.authUser?.name" @click="editBlog">Editieren</button>
     <button v-if="blog && user && user.name === store.authUser?.name" @click="deleteBlog">Löschen</button>
-    <button>Zurück</button>
+    
     
   </MainContent>
 </template>
