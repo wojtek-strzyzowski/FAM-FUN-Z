@@ -14,10 +14,6 @@ const route = useRoute();
 const router = useRouter();
 const store = useAuthStore();
 
-const goBack = () => {
-  router.push('/');
-};
-
 const selectedSpecials = computed(() => {
   if (!blog.value || !blog.value.custom_special) return [];
   let specials;
@@ -71,12 +67,14 @@ const deleteBlog = async () => {
     console.error('Fehler beim Löschen des Blogs:', error);
   }
 };
+
+const goBack = () => {
+  router.push('/');
+};
 </script>
 
 <template>
-
   <MainContent>
-
     <div v-if="blog" class="blog">
       <div class="header">
         <div class="meta-info">
@@ -102,11 +100,10 @@ const deleteBlog = async () => {
         <div class="thumbnail">
           <img :src="`/storage/${blog.thumbnail}`" alt="Thumbnail">
         </div>
-
       </div>
       <div class="map">
         <GoogleMap :address="`${blog.address}, ${blog.city}, ${blog.zip}`" /> <!-- GoogleMap-Komponente -->
-        </div>
+      </div>
 
       <div v-if="selectedSpecials && selectedSpecials.length > 0">
         <h3>Ausstattung und Besonderheiten:</h3>
@@ -132,7 +129,6 @@ const deleteBlog = async () => {
     <button @click="goBack">Zurück</button>
     
   </MainContent>
-
 </template>
 
 <style scoped>
