@@ -161,19 +161,19 @@ onMounted(() => {
       </div>
       <div class="form__group">
         <label for="address">Address</label>
-        <input id="address" v-model="address" type="text" required />
+        <input id="address" v-model="address" type="text"  />
       </div>
       <div class="form__group">
         <label for="zip">ZIP</label>
-        <input id="zip" v-model="zip" type="text" required />
+        <input id="zip" v-model="zip" type="text"  />
       </div>
       <div class="form__group">
         <label for="city">City</label>
-        <input id="city" v-model="city" type="text" required />
+        <input id="city" v-model="city" type="text"  />
       </div>
       <div class="form__group">
         <label for="homepage">Homepage</label>
-        <input id="homepage" v-model="homepage" type="url" />
+        <input id="homepage" v-model="homepage" type="text" />
       </div>
 
       <div class="form__group">

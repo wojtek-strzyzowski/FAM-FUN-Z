@@ -65,6 +65,7 @@ Route::get('/{vue_capture?}', function () {
     return view('index');
 })->where('vue_capture', '[\/\w\.-]*');
 
+
 Route::post('/register', [AuthRegisterController::class, 'register']);
 
 // Neue Route für den authentifizierten Benutzer

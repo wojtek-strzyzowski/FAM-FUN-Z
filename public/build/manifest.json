@@ -1,6 +1,6 @@
 {
-  "_BlogCard--aXgv_CY.js": {
-    "file": "assets/BlogCard--aXgv_CY.js",
+  "_BlogCard-CIBfhExW.js": {
+    "file": "assets/BlogCard-CIBfhExW.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -26,7 +26,7 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-DTbi3nY0.js",
+    "file": "assets/app-CNjg_kmp.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
@@ -41,7 +41,7 @@
       "resources/js/pages/EditBlog.vue"
     ],
     "css": [
-      "assets/app-BZprTu2B.css"
+      "assets/app-D1qT_875.css"
     ],
     "assets": [
       "assets/FAM FUN Z Entdecken_ Erfahren_ Austauschen-BAm8X5G-.png",
@@ -49,7 +49,7 @@
     ]
   },
   "resources/js/pages/About.vue": {
-    "file": "assets/About-BXXYjzhu.js",
+    "file": "assets/About-BmYP_sQT.js",
     "src": "resources/js/pages/About.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -60,19 +60,19 @@
     ]
   },
   "resources/js/pages/AllBlogs.vue": {
-    "file": "assets/AllBlogs-BVzV7ilo.js",
+    "file": "assets/AllBlogs-B3eScSrK.js",
     "src": "resources/js/pages/AllBlogs.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BlogCard--aXgv_CY.js"
+      "_BlogCard-CIBfhExW.js"
     ],
     "css": [
       "assets/AllBlogs-C9Zkf5lk.css"
     ]
   },
   "resources/js/pages/Blog.vue": {
-    "file": "assets/Blog-DT1GUIDQ.js",
+    "file": "assets/Blog-BEij0zu6.js",
     "src": "resources/js/pages/Blog.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -80,7 +80,7 @@
     ]
   },
   "resources/js/pages/CreateBlog.vue": {
-    "file": "assets/CreateBlog-D8yIQse3.js",
+    "file": "assets/CreateBlog-DG8952-G.js",
     "src": "resources/js/pages/CreateBlog.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -91,19 +91,19 @@
     ]
   },
   "resources/js/pages/Dashboard.vue": {
-    "file": "assets/Dashboard-DRrNoKFJ.js",
+    "file": "assets/Dashboard-BlKb3btC.js",
     "src": "resources/js/pages/Dashboard.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BlogCard--aXgv_CY.js"
+      "_BlogCard-CIBfhExW.js"
     ],
     "css": [
       "assets/Dashboard-CTmX7LWx.css"
     ]
   },
   "resources/js/pages/EditBlog.vue": {
-    "file": "assets/EditBlog-BCcVOZvr.js",
+    "file": "assets/EditBlog-B3t9qYw8.js",
     "src": "resources/js/pages/EditBlog.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -111,16 +111,16 @@
     ]
   },
   "resources/js/pages/Home.vue": {
-    "file": "assets/Home-CDsN8wDs.js",
+    "file": "assets/Home-25BtG8Cq.js",
     "src": "resources/js/pages/Home.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BlogCard--aXgv_CY.js"
+      "_BlogCard-CIBfhExW.js"
     ]
   },
   "resources/js/pages/Register.vue": {
-    "file": "assets/Register-DwKY0toM.js",
+    "file": "assets/Register-BIItg2nU.js",
     "src": "resources/js/pages/Register.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -128,7 +128,7 @@
     ]
   },
   "resources/js/pages/SingleBlog.vue": {
-    "file": "assets/SingleBlog-D90LWenO.js",
+    "file": "assets/SingleBlog-Dc47mYtC.js",
     "src": "resources/js/pages/SingleBlog.vue",
     "isDynamicEntry": true,
     "imports": [
