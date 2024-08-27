@@ -6,10 +6,19 @@ import { useAuthStore } from '@/stores/AuthStore';
 
 const store = useAuthStore();
 const menuActive = ref(false);
-
+let menuTimer = null;
 
 const toggleMenu = () => {
-    menuActive.value = !menuActive.value;
+  menuActive.value = !menuActive.value;
+  if (menuActive.value) {
+    // Setze den Timer, um das Menü nach 5 Sekunden zu schließen
+    menuTimer = setTimeout(() => {
+      menuActive.value = false;
+    }, 3000);
+  } else {
+    // Lösche den Timer, wenn das Menü manuell geschlossen wird
+    clearTimeout(menuTimer);
+  }
 };
 
 </script>

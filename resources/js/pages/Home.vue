@@ -7,6 +7,7 @@ import BlogCard from '@/components/BlogCard.vue';
 const latestBlogs = ref([]);
 const categories = ref([]);
 const selectedCategory = ref('');
+const sortOption = ref('desc'); // Standardmäßig nach Erstellungsdatum absteigend sortieren
 
 onMounted(async () => {
   await loadCategories();
@@ -28,7 +29,8 @@ const loadBlogs = async () => {
     const response = await axios.get('/api/blogs', {
       params: {
         category_id: selectedCategory.value,
-        sort: 'desc' // Sortiere nach Erstellungsdatum absteigend
+        sort: sortOption.value,
+        limit: 6 // Begrenze die Anzahl der abgerufenen Blogs auf 6
       }
     });
     latestBlogs.value = response.data;
@@ -38,7 +40,7 @@ const loadBlogs = async () => {
   }
 };
 
-watch(selectedCategory, async () => {
+watch([selectedCategory, sortOption], async () => {
   await loadBlogs();
 });
 </script>
@@ -57,9 +59,15 @@ watch(selectedCategory, async () => {
           </option>
         </select>
       </div>
+
+      <div class="sort">
+        <label for="sort">Sortieren nach:</label>
+        <select id="sort" v-model="sortOption">
+          <option value="desc">Neueste zuerst</option>
+          <option value="asc">Älteste zuerst</option>
+        </select>
+      </div>
     </div>
-
-
 
     <div class="blog-list">
       <BlogCard v-for="blog in latestBlogs" :key="blog.id" :blog="blog" />
@@ -92,4 +100,5 @@ watch(selectedCategory, async () => {
   gap: 20px;
   justify-content: center;
 }
+
 </style>
