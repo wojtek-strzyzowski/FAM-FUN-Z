@@ -28,9 +28,9 @@ class BlogController extends Controller
         $blog->title = $request->title;
         $blog->description = $request->description;
         $blog->content = $request->content;
-        $blog->address = $request->address;
-        $blog->zip = $request->zip;
-        $blog->city = $request->city;
+        $blog->address = $request->address ?? ''; // Setzt einen leeren String, wenn address nicht gesetzt ist
+        $blog->zip = $request->zip ?? ''; // Setzt einen leeren String, wenn zip nicht gesetzt ist
+        $blog->city = $request->city ?? ''; // Setzt einen leeren String, wenn city nicht gesetzt ist
         $blog->homepage = $request->homepage; 
         $blog->custom_special = $request->custom_special; 
         if ($request->hasFile('thumbnail')) {
@@ -39,11 +39,8 @@ class BlogController extends Controller
         }
         $blog->category_id = $request->category_id;
         $blog->save();
-    
-        return response()->json([
-            'message' => 'Blog erfolgreich erstellt.',
-            'id' => $blog->id // Fügen Sie die ID des neu erstellten Blogs zur Antwort hinzu
-        ]);
+
+        return response()->json(['message' => 'Blog created successfully'], 201);
     }
     
     // wurde geändert dismal mit user statt blog id
