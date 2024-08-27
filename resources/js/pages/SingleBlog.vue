@@ -14,6 +14,10 @@ const route = useRoute();
 const router = useRouter();
 const store = useAuthStore();
 
+const goBack = () => {
+  router.push('/');
+};
+
 const selectedSpecials = computed(() => {
   if (!blog.value || !blog.value.custom_special) return [];
   let specials;
@@ -125,6 +129,7 @@ const deleteBlog = async () => {
     </div>
     <button v-if="blog && user && user.name === store.authUser?.name" @click="editBlog">Editieren</button>
     <button v-if="blog && user && user.name === store.authUser?.name" @click="deleteBlog">Löschen</button>
+    <button @click="goBack">Zurück</button>
     
   </MainContent>
 
