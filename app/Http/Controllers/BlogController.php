@@ -17,9 +17,9 @@ class BlogController extends Controller
             'content' => 'required|string',
             'thumbnail' => 'nullable|image|max:2048',
             'homepage' => 'nullable|string|max:255',
-            'zip' => 'nullable|string|max:10',
-            'city' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:255', // Validierung für Adresse hinzugefügt
+            'zip' => 'required|string|max:10',
+            'city' => 'required|string|max:255',
+            'address' => 'required|string|max:255', // Validierung für Adresse hinzugefügt
             'custom_special' => 'nullable|json', // Validierung für custom_special hinzugefügt
         ]);
     
@@ -28,9 +28,9 @@ class BlogController extends Controller
         $blog->title = $request->title;
         $blog->description = $request->description;
         $blog->content = $request->content;
-        $blog->address = $request->address ?? ''; // Setzt einen leeren String, wenn address nicht gesetzt ist
-        $blog->zip = $request->zip ?? ''; // Setzt einen leeren String, wenn zip nicht gesetzt ist
-        $blog->city = $request->city ?? ''; // Setzt einen leeren String, wenn city nicht gesetzt ist
+        $blog->address = $request->address;
+        $blog->zip = $request->zip;
+        $blog->city = $request->city;
         $blog->homepage = $request->homepage; 
         $blog->custom_special = $request->custom_special; 
         if ($request->hasFile('thumbnail')) {
@@ -39,8 +39,11 @@ class BlogController extends Controller
         }
         $blog->category_id = $request->category_id;
         $blog->save();
-
-        return response()->json(['message' => 'Blog created successfully'], 201);
+    
+        return response()->json([
+            'message' => 'Blog erfolgreich erstellt.',
+            'id' => $blog->id // Fügen Sie die ID des neu erstellten Blogs zur Antwort hinzu
+        ]);
     }
     
     // wurde geändert dismal mit user statt blog id
