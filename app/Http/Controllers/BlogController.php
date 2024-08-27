@@ -17,9 +17,9 @@ class BlogController extends Controller
             'content' => 'required|string',
             'thumbnail' => 'nullable|image|max:2048',
             'homepage' => 'nullable|string|max:255',
-            'zip' => 'required|string|max:10',
-            'city' => 'required|string|max:255',
-            'address' => 'required|string|max:255', // Validierung für Adresse hinzugefügt
+            'zip' => 'nullable|string|max:10',
+            'city' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255', // Validierung für Adresse hinzugefügt
             'custom_special' => 'nullable|json', // Validierung für custom_special hinzugefügt
         ]);
     
