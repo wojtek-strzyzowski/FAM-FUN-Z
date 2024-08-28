@@ -226,6 +226,7 @@ textarea {
   border-radius: 5px;
   border: 1px solid rgba(70, 28, 11);
   width: 100%;
+  height: 500px;
   background-color: rgba(29, 27, 21, 0.46) !important;
 }
 
