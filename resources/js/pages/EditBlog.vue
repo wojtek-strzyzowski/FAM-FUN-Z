@@ -229,6 +229,11 @@ textarea {
   background-color: rgba(29, 27, 21, 0.46) !important;
 }
 
+#content textarea {
+  height: 300px;
+  width: 100%;
+}
+
 input:focus,
 textarea:focus {
   background-color: rgba(29, 27, 21, 0.46) !important;
@@ -237,6 +242,7 @@ textarea:focus {
 form {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   text-align: center;
 }
