@@ -201,10 +201,6 @@ onMounted(() => {
   align-items: center;
 }
 
-h1 {
-  color: rgba(70, 28, 11);
-}
-
 .form__group {
   display: flex;
   flex-direction: column;
@@ -213,61 +209,47 @@ h1 {
 
 .custom_special {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   gap: 10px;
 }
 
-label {
+.checkbox_container {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 5px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+label {
   font-size: larger;
 }
 
-input {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid rgba(70, 28, 11);
-  width: 100%;
-  background-color: rgba(29, 27, 21, 0.46) !important;
-}
-
-input:focus, textarea:focus {
-  background-color: rgba(29, 27, 21, 0.46) !important;
-}
-
+input[type="text"],
+input[type="url"],
 textarea {
   padding: 5px;
   border-radius: 5px;
   border: 1px solid rgba(70, 28, 11);
   width: 100%;
-  height: 500px;
+  background-color: rgba(29, 27, 21, 0.46) !important;
+}
+
+#content textarea {
+  height: 300px;
+  width: 100%;
+}
+
+input:focus,
+textarea:focus {
   background-color: rgba(29, 27, 21, 0.46) !important;
 }
 
 form {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   text-align: center;
-}
-
-.checkbox_container {
-  display: flex;
-  flex-direction: row; /* Behält die horizontale Ausrichtung bei */
-  align-items: center; /* Zentriert die Inhalte vertikal */
-  margin-bottom: 15px; /* Fügt Abstand zwischen den Checkbox-Containern hinzu */
-}
-
-.checkbox {
-  margin-left: 20px; /* Verschiebt die Checkboxen nach rechts */
-  display: flex;
-  align-items: center; /* Zentriert den Text neben der Checkbox */
-}
-
-.label {
-  flex-grow: 1; /* Lässt das Label den verfügbaren Platz ausfüllen */
 }
 
 button {
