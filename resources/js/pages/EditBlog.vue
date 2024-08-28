@@ -196,6 +196,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.main-content {
+  display: flex;
+  align-items: center;
+}
+
 .form__group {
   display: flex;
   flex-direction: column;
