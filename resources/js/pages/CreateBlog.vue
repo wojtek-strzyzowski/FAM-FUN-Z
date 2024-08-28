@@ -201,100 +201,94 @@ const submitForm = async () => {
 </template>
 
 <style scoped>
-
-/* .form-style {
-    display: flex;
-    flex-direction: row;
-} */
-
 .main-content {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 h1 {
-    color: rgba(70, 28, 11);
+  color: rgba(70, 28, 11);
 }
 
 .form__group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .custom_special {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 label {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 5px;
-    font-size: larger;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 5px;
+  font-size: larger;
 }
 
 input {
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid rgba(70, 28, 11);
-    width: 100%;
-    background-color: rgba(29, 27, 21, 0.46) !important;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(70, 28, 11);
+  width: 100%;
+  background-color: rgba(29, 27, 21, 0.46) !important;
 }
 
 input:focus, textarea:focus {
-    background-color: rgba(29, 27, 21, 0.46) !important;
+  background-color: rgba(29, 27, 21, 0.46) !important;
 }
 
 textarea {
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid rgba(70, 28, 11);
-    width: 100%;
-    height: 500px;
-    background-color: rgba(29, 27, 21, 0.46) !important;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(70, 28, 11);
+  width: 100%;
+  height: 500px;
+  background-color: rgba(29, 27, 21, 0.46) !important;
 }
 
 form {
-    display: flex;
-    flex-direction: column; 
-    justify-content: center;
-    text-align: center;
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  text-align: center;
 }
 
 .checkbox_container {
-    display: flex;
-    flex-direction: row; /* Behält die horizontale Ausrichtung bei */
-    align-items: center; /* Zentriert die Inhalte vertikal */
-    margin-bottom: 15px; /* Fügt Abstand zwischen den Checkbox-Containern hinzu */
+  display: flex;
+  flex-direction: row; /* Behält die horizontale Ausrichtung bei */
+  align-items: center; /* Zentriert die Inhalte vertikal */
+  margin-bottom: 15px; /* Fügt Abstand zwischen den Checkbox-Containern hinzu */
 }
 
 .checkbox {
-    margin-left: 20px; /* Verschiebt die Checkboxen nach rechts */
-    display: flex;
-    align-items: center; /* Zentriert den Text neben der Checkbox */
+  margin-left: 20px; /* Verschiebt die Checkboxen nach rechts */
+  display: flex;
+  align-items: center; /* Zentriert den Text neben der Checkbox */
 }
 
 .label {
-    flex-grow: 1; /* Lässt das Label den verfügbaren Platz ausfüllen */
+  flex-grow: 1; /* Lässt das Label den verfügbaren Platz ausfüllen */
 }
 
 button {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(70, 28, 11);
-    background-color: rgba(70, 28, 11, 0.269);
-    color: rgba(70, 28, 11);
-    font-size: larger;
-    cursor: pointer;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(70, 28, 11);
+  background-color: rgba(70, 28, 11, 0.269);
+  color: rgba(70, 28, 11);
+  font-size: larger;
+  cursor: pointer;
 }
 
 .thumbnail-preview {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
 }
 </style>
